@@ -4,7 +4,7 @@ import { ArrowDown, Code2, Sparkles, Layers, ArrowRight } from "lucide-react";
 import { DEV_INFO } from "../data";
 
 export default function Hero() {
-  const codePills = ["Flutter", "React Native", "Next.js", "TypeScript", "Tailwind CSS", "AWS"];
+  const codePills = ["React Native", "Flutter", "Next.js", "PostgreSQL", "TypeScript", "AWS"];
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -137,9 +137,9 @@ export default function Hero() {
                 <br />
                 coreTech: [
                 <div className="pl-4 flex flex-wrap gap-x-2 text-indigo-500 dark:text-indigo-400">
-                  <span>"Flutter"</span>, <span>"React Native"</span>, <span>"Next.js"</span>,
+                  <span>"React Native"</span>, <span>"Expo"</span>, <span>"PostgreSQL"</span>,
                   <br />
-                  <span>"TypeScript"</span>, <span>"AWS"</span>
+                  <span>"Express"</span>, <span>"React"</span>, <span>"Node.js"</span>
                 </div>
                 ],
                 <br />

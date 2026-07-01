@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import { Briefcase, Eye, Github, ExternalLink, X, Calendar, Code2, ArrowRight } from "lucide-react";
 import { PROJECTS } from "../data";
@@ -47,16 +48,35 @@ export default function Projects() {
               transition={{ duration: 0.4, delay: idx * 0.1 }}
               className="group flex flex-col bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-2xl overflow-hidden hover:shadow-xl hover:border-indigo-200 dark:hover:border-indigo-900/60 transition-all duration-300"
             >
-              {/* Gradient banner */}
+              {/* Banner */}
               <div
-                className={`relative h-44 bg-linear-to-br ${CATEGORY_GRADIENTS[project.category] ?? "from-slate-700 to-slate-900"} overflow-hidden`}
+                className={`relative h-44 overflow-hidden ${
+                  project.imageUrl
+                    ? "bg-slate-900"
+                    : `bg-linear-to-br ${CATEGORY_GRADIENTS[project.category] ?? "from-slate-700 to-slate-900"}`
+                }`}
               >
-                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-size-[24px_24px]" />
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <span className="text-9xl font-display font-extrabold text-white/10 select-none">
-                    {project.title.charAt(0)}
-                  </span>
-                </div>
+                {project.imageUrl ? (
+                  <>
+                    <Image
+                      src={project.imageUrl}
+                      alt={project.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 640px) 100vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-linear-to-t from-slate-950/70 via-slate-950/10 to-transparent" />
+                  </>
+                ) : (
+                  <>
+                    <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-size-[24px_24px]" />
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <span className="text-9xl font-display font-extrabold text-white/10 select-none">
+                        {project.title.charAt(0)}
+                      </span>
+                    </div>
+                  </>
+                )}
                 <div className="absolute top-4 left-4">
                   <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 bg-white/15 backdrop-blur-sm text-white rounded-full border border-white/20">
                     {project.category}
@@ -172,11 +192,25 @@ export default function Projects() {
                   <X size={16} />
                 </button>
 
-                {/* Gradient banner */}
+                {/* Banner */}
                 <div
-                  className={`relative h-36 sm:h-48 shrink-0 bg-linear-to-br ${CATEGORY_GRADIENTS[activeProject.category] ?? "from-slate-700 to-slate-900"} overflow-hidden`}
+                  className={`relative h-36 sm:h-48 shrink-0 overflow-hidden ${
+                    activeProject.imageUrl
+                      ? "bg-slate-900"
+                      : `bg-linear-to-br ${CATEGORY_GRADIENTS[activeProject.category] ?? "from-slate-700 to-slate-900"}`
+                  }`}
                 >
-                  <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-size-[24px_24px]" />
+                  {activeProject.imageUrl ? (
+                    <Image
+                      src={activeProject.imageUrl}
+                      alt={activeProject.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 768px"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-size-[24px_24px]" />
+                  )}
                   <div className="absolute inset-0 bg-linear-to-t from-slate-950/60 to-transparent" />
                   <div className="absolute bottom-4 left-5 right-12">
                     <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 bg-indigo-600 text-white rounded">

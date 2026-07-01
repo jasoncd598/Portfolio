@@ -9,16 +9,18 @@ import Contact from "../components/Contact";
 import Footer from "../components/Footer";
 
 export default function Home() {
-  const [darkMode, setDarkMode] = useState<boolean>(() => {
-    if (typeof window !== "undefined") {
-      const savedTheme = localStorage.getItem("theme");
-      if (savedTheme) return savedTheme === "dark";
-      return window.matchMedia("(prefers-color-scheme: dark)").matches;
-    }
-    return false;
-  });
+  const [darkMode, setDarkMode] = useState<boolean>(false);
+  const [themeResolved, setThemeResolved] = useState(false);
 
   useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    setDarkMode(savedTheme ? savedTheme === "dark" : prefersDark);
+    setThemeResolved(true);
+  }, []);
+
+  useEffect(() => {
+    if (!themeResolved) return;
     const root = window.document.documentElement;
     const body = window.document.body;
     if (darkMode) {
@@ -30,7 +32,7 @@ export default function Home() {
       body.classList.remove("dark");
       localStorage.setItem("theme", "light");
     }
-  }, [darkMode]);
+  }, [darkMode, themeResolved]);
 
   return (
     <div className="min-h-screen font-sans antialiased text-slate-800 bg-slate-50 dark:text-slate-100 dark:bg-slate-950 transition-colors duration-300">

@@ -38,7 +38,7 @@ export default function About() {
             </p>
 
             <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-md">
-              From migrating a live production app from React Native Expo to Flutter — improving performance for real users — to deploying AWS-hosted websites with full CI/CD pipelines, I bring the same discipline to every engagement: <strong>ship it clean, ship it secure, make it fast</strong>.
+              From building React Native apps for a live fintech product — while contributing to an in-progress migration to Flutter — to deploying AWS-hosted websites with full CI/CD pipelines, I bring the same discipline to every engagement: <strong>ship it clean, ship it secure, make it fast</strong>.
             </p>
 
             {/* Micro Details checklist */}
@@ -107,29 +107,18 @@ export default function About() {
               ))}
             </div>
 
-            {/* Skill sliders list */}
-            <div className="flex flex-col gap-6">
+            {/* Skill tag list */}
+            <div className="flex flex-wrap gap-2">
               {SKILL_CATEGORIES[activeCategory].skills.map((skill, index) => (
-                <div key={index} className="flex flex-col gap-1.5 text-left">
-                  <div className="flex justify-between items-center text-sm">
-                    <span className="font-heading font-semibold text-slate-800 dark:text-slate-200">
-                      {skill.name}
-                    </span>
-                    <span className="font-mono text-xs font-bold text-indigo-600 dark:text-indigo-400">
-                      {skill.proficiency}%
-                    </span>
-                  </div>
-
-                  {/* Slider bar */}
-                  <div className="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${skill.proficiency}%` }}
-                      transition={{ duration: 0.8, ease: "easeOut" }}
-                      className="h-full bg-linear-to-r from-indigo-500 to-purple-500"
-                    />
-                  </div>
-                </div>
+                <motion.span
+                  key={skill}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.25, delay: index * 0.03 }}
+                  className="px-3 py-1.5 rounded-lg text-sm font-heading font-semibold bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200"
+                >
+                  {skill}
+                </motion.span>
               ))}
             </div>
 

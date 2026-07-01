@@ -17,8 +17,8 @@ describe("DEV_INFO", () => {
     expect(Object.keys(DEV_INFO.socials)).toHaveLength(0);
   });
 
-  it("has exactly 4 stats", () => {
-    expect(DEV_INFO.stats).toHaveLength(4);
+  it("has exactly 3 stats", () => {
+    expect(DEV_INFO.stats).toHaveLength(3);
   });
 
   it("every stat has a label and value", () => {
@@ -43,11 +43,10 @@ describe("SKILL_CATEGORIES", () => {
     });
   });
 
-  it("all skill proficiency values are between 0 and 100", () => {
+  it("every skill is a non-empty string", () => {
     SKILL_CATEGORIES.forEach((cat) => {
       cat.skills.forEach((skill) => {
-        expect(skill.proficiency).toBeGreaterThanOrEqual(0);
-        expect(skill.proficiency).toBeLessThanOrEqual(100);
+        expect(skill.trim().length).toBeGreaterThan(0);
       });
     });
   });

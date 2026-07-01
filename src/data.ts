@@ -3,8 +3,8 @@ import { Project, Experience, SkillCategory } from "./types";
 export const DEV_INFO = {
   name: "Jason David",
   title: "Software Developer",
-  subTitle: "I build cross-platform mobile apps and production web applications — Flutter migrations, AWS-deployed sites, and everything in between — with a focus on performance, security, and UI that feels native.",
-  bio: "Software developer with 5+ years shipping cross-platform apps and production websites. At BC Remittance Ltd. I led a full Flutter migration, redesigned the mobile UI/UX, and own the end-to-end App Store and Google Play release pipeline. On the web side, I've built and deployed AWS-hosted Next.js sites with real-world cloud infrastructure. I care about clean code, sharp interfaces, and software that actually holds up.",
+  subTitle: "I build cross-platform mobile apps and production web applications — React Native apps, PERN-stack platforms, AWS-deployed sites, and everything in between — with a focus on performance, security, and UI that feels native.",
+  bio: "Software developer with 5+ years shipping cross-platform apps and production websites. At BC Remittance Ltd., a fintech company serving overseas Filipino workers, I build mobile apps in React Native, contribute to our ongoing migration to Flutter, run recurring Snyk security scans, and manage releases across the App Store and Google Play. On the web side, I'm comfortable working full-stack with the PERN stack (PostgreSQL, Express, React, Node.js) and have built and deployed AWS-hosted Next.js sites with real-world cloud infrastructure. I care about clean code, sharp interfaces, and software that actually holds up.",
   location: "Angeles City, Pampanga, Philippines",
   email: "jaycd598@gmail.com",
   phone: "+63 935 736 6675",
@@ -12,8 +12,7 @@ export const DEV_INFO = {
   socials: {} as Record<string, string>,
   stats: [
     { label: "Years Experience", value: "5+" },
-    { label: "Completed Projects", value: "10+" },
-    { label: "On-Time Delivery", value: "100%" },
+    { label: "Completed Projects", value: "2" },
     { label: "Available", value: "Now" }
   ]
 };
@@ -21,53 +20,27 @@ export const DEV_INFO = {
 export const SKILL_CATEGORIES: SkillCategory[] = [
   {
     title: "Languages & Frameworks",
-    skills: [
-      { name: "JavaScript", proficiency: 92 },
-      { name: "TypeScript", proficiency: 90 },
-      { name: "HTML5", proficiency: 90 },
-      { name: "CSS3", proficiency: 88 },
-      { name: "React Native", proficiency: 92 },
-      { name: "React", proficiency: 90 },
-      { name: "Tailwind", proficiency: 90 },
-      { name: "Expo", proficiency: 85 }
-    ]
+    skills: ["JavaScript", "TypeScript", "HTML5", "CSS3", "React Native", "React", "Tailwind", "Expo"]
   },
   {
     title: "Full-Stack Web Development",
-    skills: [
-      { name: "PERN Stack (PostgreSQL, Express, React, Node.js)", proficiency: 85 },
-      { name: "REST API", proficiency: 88 }
-    ]
+    skills: ["PERN Stack (PostgreSQL, Express, React, Node.js)", "REST API"]
   },
   {
     title: "Cloud & Backend Services",
-    skills: [
-      { name: "AWS (Route 53, Amplify)", proficiency: 82 },
-      { name: "Snyk (security scanning)", proficiency: 85 },
-      { name: "Firebase", proficiency: 80 }
-    ]
+    skills: ["AWS (Route 53, Amplify)", "Snyk (security scanning)", "Firebase"]
   },
   {
     title: "Version Control",
-    skills: [
-      { name: "Git", proficiency: 92 }
-    ]
+    skills: ["Git"]
   },
   {
     title: "App Distribution",
-    skills: [
-      { name: "Google Play Console", proficiency: 90 },
-      { name: "Apple App Store Connect", proficiency: 88 },
-      { name: "Release Management & Compliance", proficiency: 88 }
-    ]
+    skills: ["Google Play Console", "Apple App Store Connect", "Release Management & Compliance"]
   },
   {
     title: "Other",
-    skills: [
-      { name: "REST APIs & SDK Integration", proficiency: 88 },
-      { name: "Responsive UI/UX Design", proficiency: 90 },
-      { name: "Nodemailer", proficiency: 82 }
-    ]
+    skills: ["REST APIs & SDK Integration", "Responsive UI/UX Design", "Nodemailer"]
   }
 ];
 
@@ -79,6 +52,7 @@ export const PROJECTS: Project[] = [
     summary: "Responsive clinic website built with Next.js, AWS Amplify, and Nodemailer for a rehabilitation center.",
     description: "Built and customized a responsive web application for CheeU Physical Therapy Clinic Rehabilitation Center. Integrated AWS Route 53 for DNS management, AWS Amplify for hosting and CI/CD, and Nodemailer for contact form email delivery.",
     tags: ["Next.js", "AWS Amplify", "AWS Route 53", "Nodemailer", "Responsive Design"],
+    imageUrl: "/projects/cheeu.png",
     client: "CheeU Physical Therapy Clinic",
     role: "Freelance Frontend Developer",
     duration: "June 2025",
@@ -107,7 +81,8 @@ export const PROJECTS: Project[] = [
       "Client appointment scheduling and tracking",
       "Built to replace manual paper-book and group-chat coordination",
       "Actively in development"
-    ]
+    ],
+    githubUrl: "https://github.com/jasoncd598/Vesta"
   },
   {
     id: "portfolio-site",
@@ -134,15 +109,14 @@ export const EXPERIENCES: Experience[] = [
   {
     id: "exp-1",
     period: "April 2021 – Present",
-    role: "Software Developer — Mobile Dev",
+    role: "Software Developer",
     company: "BC Remittance Ltd.",
     location: "Philippines (On-site / Remote)",
-    description: "Develop and maintain cross-platform mobile applications for iOS and Android, handling the full release lifecycle while ensuring security and performance standards.",
+    description: "A Filipino-owned fintech company providing fast, secure cross-border money transfers for overseas Filipino workers across the UK, EU, US, Canada, and the Philippines.",
     bullets: [
-      "Developed and customized cross-platform mobile applications using Flutter and React Native, redesigning the UI/UX for improved usability and accessibility.",
-      "Conducted security scans and continuous vulnerability monitoring using Snyk to maintain strong application security standards.",
-      "Successfully migrated the mobile application from React Native Expo to Flutter, improving performance, scalability, and development efficiency.",
-      "Managed the full release and deployment process for both Google Play and Apple App Store, ensuring compliance with platform guidelines."
+      "Built cross-platform mobile apps for iOS and Android that improved usability and accessibility using React Native, and have been contributing to our migration to Flutter along the way.",
+      "Built a recurring security scan process that caught vulnerabilities before they shipped using Snyk.",
+      "Built and managed the release process that kept every update compliant with platform guidelines using Google Play Console and App Store Connect."
     ]
   },
   {

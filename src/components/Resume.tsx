@@ -163,7 +163,7 @@ export default function Resume() {
                   Profile
                 </h5>
                 <p className="text-[13px] leading-relaxed text-slate-650">
-                  Cross-platform mobile developer and frontend engineer with 5+ years shipping production apps on iOS, Android, and the web. Experienced in Flutter, React Native, Next.js, and AWS cloud infrastructure. Focused on clean code, security-conscious development, and UI that users actually enjoy.
+                  Cross-platform mobile developer and full-stack engineer with 5+ years shipping production apps on iOS, Android, and the web. Experienced in React Native, Flutter, the PERN stack, Next.js, and AWS cloud infrastructure. Focused on clean code, security-conscious development, and UI that users actually enjoy.
                 </p>
               </div>
 
