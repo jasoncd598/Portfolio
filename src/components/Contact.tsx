@@ -149,7 +149,7 @@ export default function Contact() {
           </h2>
           <div className="w-12 h-1 gradient-fill rounded-full mt-4" />
           <p className="text-sm text-slate-500 dark:text-slate-400 max-w-lg mt-3 text-center">
-            Have a project in mind? Send me a message and let's talk about it.
+            Have a project in mind? Send me a message and let&apos;s talk about it.
           </p>
         </div>
 
@@ -158,10 +158,10 @@ export default function Contact() {
           {/* Left Column: Coordination details & Mock offline DB */}
           <div className="lg:col-span-5 flex flex-col gap-6 text-left">
             <h3 className="text-2xl font-display font-bold text-slate-900 dark:text-white">
-              Let's build something together
+              Let&apos;s build something together
             </h3>
             <p className="text-slate-605 dark:text-slate-300 leading-relaxed text-sm">
-              I'm open to freelance projects, contract work, and full-time opportunities. Whether you need a mobile app, a web build, or someone to take over an existing codebase — send me the details and let's figure out if we're a good fit.
+              I&apos;m open to freelance projects, contract work, and full-time opportunities. Whether you need a mobile app, a web build, or someone to take over an existing codebase — send me the details and let&apos;s figure out if we&apos;re a good fit.
             </p>
 
             {/* Direct coordination items */}
@@ -241,7 +241,7 @@ export default function Contact() {
                         Re: {inq.subject}
                       </div>
                       <p className="text-slate-500 line-clamp-1 italic">
-                        "{inq.message}"
+                        &quot;{inq.message}&quot;
                       </p>
                     </div>
                   ))
@@ -398,7 +398,7 @@ export default function Contact() {
                     <div className="flex flex-col">
                       <span className="font-bold text-xs sm:text-sm">Message sent!</span>
                       <p className="text-[11px] sm:text-xs text-emerald-700 dark:text-emerald-400/80 mt-0.5">
-                        Got it — I'll get back to you within 24 hours.
+                        Got it — I&apos;ll get back to you within 24 hours.
                       </p>
                     </div>
                   </motion.div>
@@ -415,7 +415,7 @@ export default function Contact() {
                     <div className="flex flex-col">
                       <span className="font-bold text-xs sm:text-sm">Something went wrong</span>
                       <p className="text-[11px] sm:text-xs text-red-700 dark:text-red-400/80 mt-0.5">
-                        Couldn't send your message. Try emailing me directly at {DEV_INFO.email}.
+                        Couldn&apos;t send your message. Try emailing me directly at {DEV_INFO.email}.
                       </p>
                     </div>
                   </motion.div>

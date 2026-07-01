@@ -39,7 +39,7 @@ export default function Home() {
       {/* Fixed animated gradient mesh backdrop shared by every section */}
       <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none print:hidden bg-linear-to-br from-violet-50 via-slate-50 to-fuchsia-50 dark:from-slate-950 dark:via-slate-950 dark:to-slate-950">
         <div className="absolute top-[-20%] left-[-10%] w-176 h-176 rounded-full bg-violet-400/45 dark:bg-violet-700/20 blur-[110px] animate-blob" />
-        <div className="absolute top-[10%] right-[-20%] w-144 h-144 rounded-full bg-fuchsia-400/40 dark:bg-fuchsia-800/20 blur-[120px] animate-blob-slow" />
+        <div className="absolute top-[10%] right-[-20%] w-xl h-xl rounded-full bg-fuchsia-400/40 dark:bg-fuchsia-800/20 blur-[120px] animate-blob-slow" />
         <div className="absolute bottom-[-25%] left-[10%] w-176 h-176 rounded-full bg-cyan-400/35 dark:bg-cyan-800/15 blur-[120px] animate-blob" style={{ animationDelay: "4s" }} />
         <div className="absolute top-[40%] left-[35%] w-120 h-120 rounded-full bg-indigo-400/30 dark:bg-indigo-800/15 blur-[110px] animate-blob-slow" style={{ animationDelay: "2s" }} />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-size-[14px_24px]" />

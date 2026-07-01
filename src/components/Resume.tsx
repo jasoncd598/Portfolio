@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Sparkles, Calendar, Award, Building2, MapPin, Printer, Download, ChevronDown, ChevronUp, FileCode } from "lucide-react";
-import { DEV_INFO, EXPERIENCES, SKILL_CATEGORIES } from "../data";
+import { Calendar, Award, Building2, MapPin, Printer, ChevronDown, ChevronUp, FileCode } from "lucide-react";
+import { DEV_INFO, EXPERIENCES } from "../data";
 
 export default function Resume() {
   const [expandedId, setExpandedId] = useState<string | null>(EXPERIENCES[0]?.id || null);
@@ -31,7 +31,7 @@ export default function Resume() {
           </h2>
           <div className="w-12 h-1 gradient-fill rounded-full mt-4" />
           <p className="text-sm text-slate-500 dark:text-slate-400 max-w-lg mt-3 text-center">
-            Where I've worked and what I built while I was there.
+            Where I&apos;ve worked and what I built while I was there.
           </p>
         </div>
 
@@ -45,7 +45,7 @@ export default function Resume() {
             </h3>
 
             <div className="relative border-l border-slate-200 dark:border-slate-800 ml-3 pl-6 flex flex-col gap-8 text-left">
-              {EXPERIENCES.map((exp, index) => {
+              {EXPERIENCES.map((exp) => {
                 const isExpanded = expandedId === exp.id;
                 return (
                   <div key={exp.id} className="relative group">
@@ -229,7 +229,7 @@ export default function Resume() {
             {/* Print action trigger prompt */}
             <div className="flex justify-center items-center gap-3 mt-1 print:hidden">
               <span className="text-xs text-slate-400 dark:text-slate-500">
-                To download, select "Save as PDF" during printing
+                To download, select &quot;Save as PDF&quot; during printing
               </span>
             </div>
           </div>

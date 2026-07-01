@@ -9,18 +9,18 @@ interface NavbarProps {
   setDarkMode: (dark: boolean) => void;
 }
 
+const navItems = [
+  { id: "hero", label: "Home" },
+  { id: "about", label: "About" },
+  { id: "projects", label: "Projects" },
+  { id: "resume", label: "Resume" },
+  { id: "contact", label: "Contact" },
+];
+
 export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
-
-  const navItems = [
-    { id: "hero", label: "Home" },
-    { id: "about", label: "About" },
-    { id: "projects", label: "Projects" },
-    { id: "resume", label: "Resume" },
-    { id: "contact", label: "Contact" },
-  ];
 
   useEffect(() => {
     const handleScroll = () => {

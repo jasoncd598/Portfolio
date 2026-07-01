@@ -52,7 +52,7 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-md sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-xl text-left"
           >
-            Hi, I'm <strong className="text-slate-930 dark:text-white font-semibold">{DEV_INFO.name}</strong>. {DEV_INFO.subTitle}
+            Hi, I&apos;m <strong className="text-slate-930 dark:text-white font-semibold">{DEV_INFO.name}</strong>. {DEV_INFO.subTitle}
           </motion.p>
 
           {/* Code pills wrapper */}
@@ -91,7 +91,7 @@ export default function Hero() {
               onClick={() => scrollToSection("contact")}
               className="flex items-center gap-2 px-6 py-3 glass-chip hover:bg-white/80 dark:hover:bg-white/10 text-slate-800 dark:text-slate-100 font-display font-medium text-[15px] rounded-lg transition-all cursor-pointer"
             >
-              Let's Talk
+              Let&apos;s Talk
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             </button>
           </motion.div>
@@ -125,25 +125,25 @@ export default function Hero() {
               <span className="text-violet-500">const</span>{" "}
               <span className="text-fuchsia-500">developer</span> = {"{"}
               <div className="pl-4">
-                role: <span className="text-emerald-500">"Software Developer"</span>,
+                role: <span className="text-emerald-500">&quot;Software Developer&quot;</span>,
                 <br />
-                location: <span className="text-emerald-500">"Angeles City, PH"</span>,
+                location: <span className="text-emerald-500">&quot;Angeles City, PH&quot;</span>,
                 <br />
-                availability: <span className="text-emerald-500">"Open to Opportunities"</span>,
+                availability: <span className="text-emerald-500">&quot;Open to Opportunities&quot;</span>,
                 <br />
                 coreTech: [
                 <div className="pl-4 flex flex-wrap gap-x-2 text-indigo-500 dark:text-indigo-400">
-                  <span>"React Native"</span>, <span>"Expo"</span>, <span>"PostgreSQL"</span>,
+                  <span>&quot;React Native&quot;</span>, <span>&quot;Expo&quot;</span>, <span>&quot;PostgreSQL&quot;</span>,
                   <br />
-                  <span>"Express"</span>, <span>"React"</span>, <span>"Node.js"</span>
+                  <span>&quot;Express&quot;</span>, <span>&quot;React&quot;</span>, <span>&quot;Node.js&quot;</span>
                 </div>
                 ],
                 <br />
                 solvingFor: <span className="text-amber-500">() =&gt;</span> {"{"}
                 <div className="pl-4 text-slate-400 dark:text-slate-500">
-                  // Performant mobile & web apps
+                  {/* Performant mobile & web apps */}
                   <br />
-                  // with clean code & great UX
+                  {/* with clean code & great UX */}
                 </div>
                 {"}"}
               </div>

@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { motion } from "motion/react";
-import { User, ShieldCheck, Heart, MapPin, Award, CheckCircle, Flame } from "lucide-react";
+import { User, ShieldCheck, MapPin, Award, CheckCircle, Flame } from "lucide-react";
 import { DEV_INFO, SKILL_CATEGORIES } from "../data";
 
 export default function About() {
@@ -38,7 +38,7 @@ export default function About() {
             </p>
 
             <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-md">
-              Whether it's a React Native app at BC Remittance or a client site deployed on AWS, I approach it the same way: <strong>keep the code clean, keep it secure, and keep it fast</strong>.
+              Whether it&apos;s a React Native app at BC Remittance or a client site deployed on AWS, I approach it the same way: <strong>keep the code clean, keep it secure, and keep it fast</strong>.
             </p>
 
             {/* Micro Details checklist */}
