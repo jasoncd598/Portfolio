@@ -56,7 +56,7 @@ export default function About() {
             </p>
 
             <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-md">
-              Whether it&apos;s a React Native app at BC Remittance or a client site deployed on AWS, I approach it the same way: <strong>keep the code clean, keep it secure, and keep it fast</strong>.
+              Whether it&apos;s a React Native app or a client site deployed on AWS, I approach it the same way: <strong>keep the code clean, keep it secure, and keep it fast</strong>.
             </p>
 
             {/* Micro Details checklist */}
