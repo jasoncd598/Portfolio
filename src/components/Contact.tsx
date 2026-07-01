@@ -11,6 +11,7 @@ export default function Contact() {
     email: "",
     subject: "",
     message: "",
+    _gotcha: "",
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -79,20 +80,30 @@ export default function Contact() {
 
     if (!validate()) return;
 
+    // Honeypot: real users never fill this in. Bots that auto-fill every
+    // field will trip it, so fake success without spending the Formspree quota.
+    if (formData._gotcha) {
+      setIsSuccess(true);
+      setFormData({ name: "", email: "", subject: "", message: "", _gotcha: "" });
+      setTimeout(() => setIsSuccess(false), 5500);
+      return;
+    }
+
     setIsSubmitting(true);
     setIsError(false);
 
     try {
+      const { _gotcha, ...payload } = formData;
       const res = await fetch("https://formspree.io/f/mkolbkrr", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
 
       if (!res.ok) throw new Error("Formspree error");
 
       const newInquiry: ContactInquiry = {
-        ...formData,
+        ...payload,
         date: new Date().toLocaleDateString("en-US", {
           month: "short",
           day: "numeric",
@@ -107,7 +118,7 @@ export default function Contact() {
       setRecentInquiries(updatedLogs);
 
       setIsSuccess(true);
-      setFormData({ name: "", email: "", subject: "", message: "" });
+      setFormData({ name: "", email: "", subject: "", message: "", _gotcha: "" });
       setTimeout(() => setIsSuccess(false), 5500);
     } catch {
       setIsError(true);
@@ -242,6 +253,18 @@ export default function Contact() {
           {/* Right Column: Interaction Form Canvas */}
           <div className="lg:col-span-7 bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-6 sm:p-8 rounded-2xl shadow-sm">
             <form id="contact-form" onSubmit={handleSubmit} className="flex flex-col gap-5 text-left">
+              {/* Honeypot: hidden from real users, catches bots that auto-fill every field */}
+              <input
+                type="text"
+                name="_gotcha"
+                value={formData._gotcha}
+                onChange={handleChange}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="absolute left-[-9999px] w-px h-px opacity-0"
+              />
+
               {/* Name & Email Multi Section */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Name */}
