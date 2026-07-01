@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { User, ShieldCheck, MapPin, Award, CheckCircle, Flame } from "lucide-react";
 import { DEV_INFO, SKILL_CATEGORIES } from "../data";
@@ -28,10 +29,27 @@ export default function About() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mt-6">
           {/* Left Column: Creative Bio Story */}
           <div className="lg:col-span-6 flex flex-col gap-6 text-left">
-            <h3 className="text-2xl font-display font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <Flame className="text-violet-500 shrink-0" size={24} />
-              How I Work
-            </h3>
+            <div className="flex items-center gap-4">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.85 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="w-16 h-16 sm:w-20 sm:h-20 rounded-full ring-4 ring-white/80 dark:ring-slate-800/80 shadow-lg shadow-fuchsia-500/20 overflow-hidden shrink-0"
+              >
+                <Image
+                  src="/jason.webp"
+                  alt={DEV_INFO.name}
+                  width={80}
+                  height={80}
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
+              <h3 className="text-2xl font-display font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <Flame className="text-violet-500 shrink-0" size={24} />
+                How I Work
+              </h3>
+            </div>
 
             <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-md">
               {DEV_INFO.bio}
