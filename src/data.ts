@@ -66,31 +66,13 @@ export const PROJECTS: Project[] = [
     demoUrl: "https://www.cheeuclinic.com"
   },
   {
-    id: "vesta",
-    title: "Vesta",
-    category: "Web Apps",
-    summary: "SaaS platform for small service businesses to manage staff, services, and client appointments — in progress.",
-    description: "Vesta lets business owners sign up, manage their staff and the services they offer, and track client appointments — replacing the paper books and group-chat coordination many small service businesses rely on. Currently in active development.",
-    tags: ["PERN Stack", "PostgreSQL", "Express", "React", "Node.js", "Work in Progress"],
-    client: "Personal Project",
-    role: "Full-Stack Developer",
-    duration: "2026 – Present",
-    features: [
-      "Business owner sign-up and account management",
-      "Staff management and service catalog configuration",
-      "Client appointment scheduling and tracking",
-      "Built to replace manual paper-book and group-chat coordination",
-      "Actively in development"
-    ],
-    githubUrl: "https://github.com/jasoncd598/Vesta"
-  },
-  {
     id: "portfolio-site",
     title: "Personal Portfolio",
     category: "Web Apps",
     summary: "Modern developer portfolio built with React, TypeScript, Tailwind CSS, and Framer Motion.",
     description: "Designed and developed this personal portfolio site from scratch to showcase projects, experience, and skills. Built with Next.js, TypeScript, Tailwind CSS v4, and Motion for smooth animations. Deployed to Vercel.",
     tags: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion", "Vercel"],
+    imageUrl: "/projects/portfolio.png",
     client: "Personal Project",
     role: "Developer & Designer",
     duration: "2025",
@@ -102,7 +84,26 @@ export const PROJECTS: Project[] = [
       "Deployed on Vercel with automatic CI/CD on every push"
     ],
     githubUrl: "https://github.com/jasoncd598/Portfolio"
-  }
+  },
+  {
+    id: "vesta",
+    title: "Vesta",
+    category: "Web Apps",
+    summary: "SaaS platform for small service businesses to manage staff, services, and client appointments — in progress.",
+    description: "Vesta lets business owners sign up, manage their staff and the services they offer, and track client appointments — replacing the paper books and group-chat coordination many small service businesses rely on. Currently in active development.",
+    tags: ["PERN Stack", "PostgreSQL", "Express", "React", "Node.js", "Work in Progress"],
+    client: "Personal Project",
+    role: "Full-Stack Developer",
+    duration: "2026 - Present",
+    features: [
+      "Business owner sign-up and account management",
+      "Staff management and service catalog configuration",
+      "Client appointment scheduling and tracking",
+      "Built to replace manual paper-book and group-chat coordination",
+      "Actively in development"
+    ],
+    githubUrl: "https://github.com/jasoncd598/Vesta"
+  },
 ];
 
 export const EXPERIENCES: Experience[] = [
