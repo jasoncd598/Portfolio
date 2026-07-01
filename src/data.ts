@@ -20,30 +20,53 @@ export const DEV_INFO = {
 
 export const SKILL_CATEGORIES: SkillCategory[] = [
   {
-    title: "Mobile Development",
+    title: "Languages & Frameworks",
     skills: [
-      { name: "Flutter", proficiency: 92 },
-      { name: "React Native", proficiency: 88 },
-      { name: "iOS & Android Deployment", proficiency: 90 },
-      { name: "Cross-Platform UI/UX", proficiency: 88 }
+      { name: "JavaScript", proficiency: 92 },
+      { name: "TypeScript", proficiency: 90 },
+      { name: "HTML5", proficiency: 90 },
+      { name: "CSS3", proficiency: 88 },
+      { name: "React Native", proficiency: 92 },
+      { name: "React", proficiency: 90 },
+      { name: "Tailwind", proficiency: 90 },
+      { name: "Expo", proficiency: 85 }
     ]
   },
   {
-    title: "Web Development",
+    title: "Full-Stack Web Development",
     skills: [
-      { name: "React / Next.js / TypeScript", proficiency: 90 },
-      { name: "Tailwind CSS", proficiency: 92 },
-      { name: "AWS (Amplify, Route 53)", proficiency: 80 },
-      { name: "Node.js / REST APIs", proficiency: 82 }
+      { name: "PERN Stack (PostgreSQL, Express, React, Node.js)", proficiency: 85 },
+      { name: "REST API", proficiency: 88 }
     ]
   },
   {
-    title: "Tools & Practices",
+    title: "Cloud & Backend Services",
     skills: [
-      { name: "Git & Version Control", proficiency: 92 },
-      { name: "Security Scanning (Snyk)", proficiency: 85 },
-      { name: "App Store & Play Store Releases", proficiency: 90 },
-      { name: "APIs & SDKs Integration", proficiency: 88 }
+      { name: "AWS (Route 53, Amplify)", proficiency: 82 },
+      { name: "Snyk (security scanning)", proficiency: 85 },
+      { name: "Firebase", proficiency: 80 }
+    ]
+  },
+  {
+    title: "Version Control",
+    skills: [
+      { name: "Git", proficiency: 92 }
+    ]
+  },
+  {
+    title: "App Distribution",
+    skills: [
+      { name: "Google Play Console", proficiency: 90 },
+      { name: "Apple App Store Connect", proficiency: 88 },
+      { name: "Release Management & Compliance", proficiency: 88 }
+    ]
+  },
+  {
+    title: "Other",
+    skills: [
+      { name: "REST APIs & SDK Integration", proficiency: 88 },
+      { name: "Responsive UI/UX Design", proficiency: 90 },
+      { name: "Nodemailer", proficiency: 82 }
     ]
   }
 ];
@@ -69,23 +92,22 @@ export const PROJECTS: Project[] = [
     demoUrl: "https://www.cheeuclinic.com"
   },
   {
-    id: "yarine",
-    title: "Yarine Studio",
+    id: "vesta",
+    title: "Vesta",
     category: "Web Apps",
-    summary: "Marketing website for a Philippine-based software development studio offering web and mobile development services.",
-    description: "Designed and built the Yarine studio website to serve as a client-facing marketing platform for a Philippine software development studio. The site showcases services, pricing, a four-step build process, and a clear value proposition — direct access to developers without agency overhead. Deployed on Vercel.",
-    tags: ["Vercel", "Web Design", "Landing Page", "Responsive Design"],
-    client: "Yarine",
-    role: "Developer & Designer",
-    duration: "2025",
+    summary: "SaaS platform for small service businesses to manage staff, services, and client appointments — in progress.",
+    description: "Vesta lets business owners sign up, manage their staff and the services they offer, and track client appointments — replacing the paper books and group-chat coordination many small service businesses rely on. Currently in active development.",
+    tags: ["PERN Stack", "PostgreSQL", "Express", "React", "Node.js", "Work in Progress"],
+    client: "Personal Project",
+    role: "Full-Stack Developer",
+    duration: "2026 – Present",
     features: [
-      "Studio landing page showcasing web and mobile development services",
-      "Transparent pricing and project scoping information",
-      "Four-step process section: Understand → Plan → Build → Launch",
-      "Philippine timezone availability with global-standard quality positioning",
-      "Deployed and hosted on Vercel"
-    ],
-    demoUrl: "https://yarine.vercel.app/"
+      "Business owner sign-up and account management",
+      "Staff management and service catalog configuration",
+      "Client appointment scheduling and tracking",
+      "Built to replace manual paper-book and group-chat coordination",
+      "Actively in development"
+    ]
   },
   {
     id: "portfolio-site",
@@ -102,27 +124,13 @@ export const PROJECTS: Project[] = [
       "Smooth scroll animations powered by Framer Motion",
       "Interactive project gallery with case study lightbox",
       "Printable resume section with real work experience",
-      "Deployed on Vercel with automated CI via GitHub Actions"
+      "Deployed on Vercel with automatic CI/CD on every push"
     ],
     githubUrl: "https://github.com/jasoncd598/Portfolio"
   }
 ];
 
 export const EXPERIENCES: Experience[] = [
-  {
-    id: "exp-yarine",
-    period: "2026 – Present",
-    role: "Founder & Software Developer",
-    company: "Yarine",
-    location: "Philippines (Remote)",
-    description: "Founded Yarine, an IT solutions startup offering custom web and mobile development services for small businesses in the Philippines. Handles end-to-end delivery from scoping to deployment.",
-    bullets: [
-      "Founded and operate an IT solutions startup specializing in web and mobile development for small businesses.",
-      "Build and deploy client-facing websites, dashboards, customer portals, and mobile apps.",
-      "Manage full project lifecycle: scoping, development, deployment, and post-launch support.",
-      "Live studio site: https://yarine.vercel.app"
-    ]
-  },
   {
     id: "exp-1",
     period: "April 2021 – Present",
