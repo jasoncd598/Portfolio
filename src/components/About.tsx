@@ -10,18 +10,18 @@ export default function About() {
   return (
     <section
       id="about"
-      className="py-24 border-t border-slate-100 dark:border-slate-900 bg-white dark:bg-slate-950 transition-colors duration-300 relative"
+      className="py-24 border-t border-slate-200/60 dark:border-white/5 bg-transparent transition-colors duration-300 relative"
     >
       <div className="max-w-7xl mx-auto px-6">
         {/* Section Heading */}
         <div className="flex flex-col items-center text-center mb-16">
-          <span className="text-xs font-mono font-bold tracking-widest text-indigo-600 dark:text-indigo-400 uppercase mb-2 inline-flex items-center gap-1.5 bg-indigo-50 dark:bg-indigo-950/45 px-3 py-1 rounded-full">
+          <span className="text-xs font-mono font-bold tracking-widest text-fuchsia-700 dark:text-fuchsia-400 uppercase mb-2 inline-flex items-center gap-1.5 glass-chip px-3 py-1 rounded-full">
             <User size={12} /> About Me
           </span>
           <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-slate-900 dark:text-white tracking-tight">
             A Bit About Me
           </h2>
-          <div className="w-12 h-1 bg-indigo-600 dark:bg-indigo-400 rounded-full mt-4" />
+          <div className="w-12 h-1 gradient-fill rounded-full mt-4" />
         </div>
 
         {/* Content Layout */}
@@ -44,26 +44,26 @@ export default function About() {
             {/* Micro Details checklist */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-2">
               <div className="flex items-center gap-2 text-slate-700 dark:text-slate-200">
-                <CheckCircle className="text-indigo-600 dark:text-indigo-400 shrink-0" size={18} />
+                <CheckCircle className="text-fuchsia-600 dark:text-fuchsia-400 shrink-0" size={18} />
                 <span className="text-sm font-medium">App Store & Google Play Releases</span>
               </div>
               <div className="flex items-center gap-2 text-slate-700 dark:text-slate-200">
-                <CheckCircle className="text-indigo-600 dark:text-indigo-400 shrink-0" size={18} />
+                <CheckCircle className="text-fuchsia-600 dark:text-fuchsia-400 shrink-0" size={18} />
                 <span className="text-sm font-medium">Security Scanning with Snyk</span>
               </div>
               <div className="flex items-center gap-2 text-slate-700 dark:text-slate-200">
-                <CheckCircle className="text-indigo-600 dark:text-indigo-400 shrink-0" size={18} />
+                <CheckCircle className="text-fuchsia-600 dark:text-fuchsia-400 shrink-0" size={18} />
                 <span className="text-sm font-medium">AWS Cloud Infrastructure</span>
               </div>
               <div className="flex items-center gap-2 text-slate-700 dark:text-slate-200">
-                <CheckCircle className="text-indigo-600 dark:text-indigo-400 shrink-0" size={18} />
+                <CheckCircle className="text-fuchsia-600 dark:text-fuchsia-400 shrink-0" size={18} />
                 <span className="text-sm font-medium">Responsive & Accessible UI/UX</span>
               </div>
             </div>
 
             {/* Quick Card info */}
-            <div className="p-4 bg-slate-50 dark:bg-slate-900/60 rounded-xl border border-slate-150 dark:border-slate-800 flex items-center gap-4 mt-2">
-              <div className="w-10 h-10 rounded-full bg-indigo-50 dark:bg-indigo-950 flex items-center justify-center text-indigo-600 dark:text-indigo-400 shrink-0">
+            <div className="p-4 glass-card rounded-xl flex items-center gap-4 mt-2">
+              <div className="w-10 h-10 rounded-full gradient-fill flex items-center justify-center text-white shrink-0 shadow-md shadow-fuchsia-500/30">
                 <MapPin size={20} />
               </div>
               <div>
@@ -78,10 +78,10 @@ export default function About() {
           </div>
 
           {/* Right Column: Interactive Skills Matrix */}
-          <div className="lg:col-span-6 bg-slate-50 dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800/80 rounded-2xl p-6 shadow-sm overflow-hidden">
+          <div className="lg:col-span-6 glass-card rounded-2xl p-6 overflow-hidden">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-lg font-display font-medium text-slate-900 dark:text-white flex items-center gap-2">
-                <Award className="text-indigo-600 dark:text-indigo-400" size={18} />
+                <Award className="text-fuchsia-600 dark:text-fuchsia-400" size={18} />
                 Skills & Technologies
               </h3>
               <span className="text-xs font-mono text-slate-400 dark:text-slate-500">
@@ -98,8 +98,8 @@ export default function About() {
                   onClick={() => setActiveCategory(idx)}
                   className={`px-3 py-1.5 rounded-lg text-xs font-display font-medium transition-all duration-200 cursor-pointer ${
                     activeCategory === idx
-                      ? "bg-indigo-600 text-white shadow-sm"
-                      : "bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-850 text-slate-600 hover:text-slate-900 dark:text-slate-350 dark:hover:text-white"
+                      ? "btn-gradient"
+                      : "glass-chip text-slate-600 hover:text-slate-900 dark:text-slate-350 dark:hover:text-white"
                   }`}
                 >
                   {category.title}
@@ -115,7 +115,7 @@ export default function About() {
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.25, delay: index * 0.03 }}
-                  className="px-3 py-1.5 rounded-lg text-sm font-heading font-semibold bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200"
+                  className="px-3 py-1.5 rounded-lg text-sm font-heading font-semibold glass-chip text-slate-700 dark:text-slate-200"
                 >
                   {skill}
                 </motion.span>
@@ -123,7 +123,7 @@ export default function About() {
             </div>
 
             {/* Quality badge disclaimer */}
-            <div className="mt-8 pt-4 border-t border-slate-150 dark:border-slate-800/80 flex items-center gap-2 text-slate-400 dark:text-slate-500">
+            <div className="mt-8 pt-4 border-t border-slate-200/60 dark:border-slate-800/80 flex items-center gap-2 text-slate-400 dark:text-slate-500">
               <ShieldCheck size={16} />
               <span className="text-[11px] font-mono uppercase tracking-wide">
                 Tested on iOS, Android, and across responsive viewports

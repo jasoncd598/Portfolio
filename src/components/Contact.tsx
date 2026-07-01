@@ -136,18 +136,18 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="py-24 border-t border-slate-100 dark:border-slate-900 bg-white dark:bg-slate-950 transition-colors duration-300 relative"
+      className="py-24 border-t border-slate-200/60 dark:border-white/5 bg-transparent transition-colors duration-300 relative"
     >
       <div className="max-w-7xl mx-auto px-6">
         {/* Section Heading */}
         <div className="flex flex-col items-center text-center mb-16">
-          <span className="text-xs font-mono font-bold tracking-widest text-indigo-600 dark:text-indigo-400 uppercase mb-2 inline-flex items-center gap-1.5 bg-indigo-50 dark:bg-indigo-950/45 px-3 py-1 rounded-full">
+          <span className="text-xs font-mono font-bold tracking-widest text-fuchsia-700 dark:text-fuchsia-400 uppercase mb-2 inline-flex items-center gap-1.5 glass-chip px-3 py-1 rounded-full">
             <Mail size={12} /> Contact
           </span>
           <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-slate-900 dark:text-white tracking-tight">
             Get In Touch
           </h2>
-          <div className="w-12 h-1 bg-indigo-600 dark:bg-indigo-400 rounded-full mt-4" />
+          <div className="w-12 h-1 gradient-fill rounded-full mt-4" />
           <p className="text-sm text-slate-500 dark:text-slate-400 max-w-lg mt-3 text-center">
             Have a project in mind? Send me a message and let's talk about it.
           </p>
@@ -167,7 +167,7 @@ export default function Contact() {
             {/* Direct coordination items */}
             <div className="flex flex-col gap-4 mt-2">
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-lg bg-indigo-50 dark:bg-slate-900 flex items-center justify-center text-indigo-600 dark:text-indigo-400 shrink-0">
+                <div className="w-10 h-10 rounded-lg gradient-fill flex items-center justify-center text-white shrink-0 shadow-md shadow-fuchsia-500/30">
                   <Mail size={18} />
                 </div>
                 <div>
@@ -179,7 +179,7 @@ export default function Contact() {
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-lg bg-indigo-50 dark:bg-slate-900 flex items-center justify-center text-indigo-600 dark:text-indigo-400 shrink-0">
+                <div className="w-10 h-10 rounded-lg gradient-fill flex items-center justify-center text-white shrink-0 shadow-md shadow-fuchsia-500/30">
                   <Phone size={18} />
                 </div>
                 <div>
@@ -191,7 +191,7 @@ export default function Contact() {
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-lg bg-indigo-50 dark:bg-slate-900 flex items-center justify-center text-indigo-600 dark:text-indigo-400 shrink-0">
+                <div className="w-10 h-10 rounded-lg gradient-fill flex items-center justify-center text-white shrink-0 shadow-md shadow-fuchsia-500/30">
                   <MapPin size={18} />
                 </div>
                 <div>
@@ -204,7 +204,7 @@ export default function Contact() {
             </div>
 
             {/* Local sandbox log visual representation */}
-            <div className="mt-6 p-4 bg-slate-50 dark:bg-slate-900/60 rounded-xl border border-slate-200/60 dark:border-slate-800 flex flex-col gap-3">
+            <div className="mt-6 p-4 glass-card rounded-xl flex flex-col gap-3">
               <div className="flex justify-between items-center">
                 <span className="text-xs font-mono uppercase tracking-wider text-slate-400 dark:text-slate-500 font-bold flex items-center gap-1.5">
                   <MessageSquareCode size={13} /> Saved Sent History
@@ -229,10 +229,10 @@ export default function Contact() {
                   recentInquiries.map((inq, idx) => (
                     <div
                       key={idx}
-                      className="p-2.5 rounded bg-white dark:bg-slate-950 border border-slate-150 dark:border-slate-850 flex flex-col gap-1 text-[11px]"
+                      className="p-2.5 rounded glass-chip flex flex-col gap-1 text-[11px]"
                     >
                       <div className="flex justify-between font-mono text-[10px] text-slate-400">
-                        <span className="font-semibold text-indigo-600 dark:text-indigo-400 truncate max-w-30">
+                        <span className="font-semibold gradient-text truncate max-w-30">
                           To: {DEV_INFO.name.split(" ")[0]}
                         </span>
                         <span>{inq.date}</span>
@@ -251,7 +251,7 @@ export default function Contact() {
           </div>
 
           {/* Right Column: Interaction Form Canvas */}
-          <div className="lg:col-span-7 bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-6 sm:p-8 rounded-2xl shadow-sm">
+          <div className="lg:col-span-7 glass-card p-6 sm:p-8 rounded-2xl">
             <form id="contact-form" onSubmit={handleSubmit} className="flex flex-col gap-5 text-left">
               {/* Honeypot: hidden from real users, catches bots that auto-fill every field */}
               <input
@@ -279,9 +279,9 @@ export default function Contact() {
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="e.g. Emily Watson"
-                    className={`px-4 py-2 text-sm bg-white dark:bg-slate-950 border ${
+                    className={`px-4 py-2 text-sm bg-white/70 dark:bg-slate-950/50 border ${
                       errors.name ? "border-red-500" : "border-slate-200 dark:border-slate-800"
-                    } hover:border-slate-350 focus:border-indigo-500 dark:hover:border-slate-700 dark:focus:border-indigo-400 rounded-lg outline-none transition`}
+                    } hover:border-slate-350 focus:border-fuchsia-500 dark:hover:border-slate-700 dark:focus:border-fuchsia-400 rounded-lg outline-none transition`}
                   />
                   {errors.name && (
                     <span className="text-[11px] text-red-500 font-medium flex items-center gap-1 mt-0.5">
@@ -303,9 +303,9 @@ export default function Contact() {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="emily@company.io"
-                    className={`px-4 py-2 text-sm bg-white dark:bg-slate-950 border ${
+                    className={`px-4 py-2 text-sm bg-white/70 dark:bg-slate-950/50 border ${
                       errors.email ? "border-red-500" : "border-slate-200 dark:border-slate-800"
-                    } hover:border-slate-350 focus:border-indigo-500 dark:hover:border-slate-700 dark:focus:border-indigo-400 rounded-lg outline-none transition`}
+                    } hover:border-slate-350 focus:border-fuchsia-500 dark:hover:border-slate-700 dark:focus:border-fuchsia-400 rounded-lg outline-none transition`}
                   />
                   {errors.email && (
                     <span className="text-[11px] text-red-500 font-medium flex items-center gap-1 mt-0.5">
@@ -328,9 +328,9 @@ export default function Contact() {
                   value={formData.subject}
                   onChange={handleChange}
                   placeholder="Inquiry about new dashboard layout..."
-                  className={`px-4 py-3 text-sm bg-white dark:bg-slate-950 border ${
+                  className={`px-4 py-3 text-sm bg-white/70 dark:bg-slate-950/50 border ${
                     errors.subject ? "border-red-500" : "border-slate-200 dark:border-slate-800"
-                  } hover:border-slate-350 focus:border-indigo-500 dark:hover:border-slate-700 dark:focus:border-indigo-400 rounded-lg outline-none transition`}
+                  } hover:border-slate-350 focus:border-fuchsia-500 dark:hover:border-slate-700 dark:focus:border-fuchsia-400 rounded-lg outline-none transition`}
                 />
                 {errors.subject && (
                   <span className="text-[11px] text-red-500 font-medium flex items-center gap-1 mt-0.5">
@@ -352,9 +352,9 @@ export default function Contact() {
                   value={formData.message}
                   onChange={handleChange}
                   placeholder="Tell me about your project, timeline, and budget..."
-                  className={`px-4 py-3 text-sm bg-white dark:bg-slate-950 border ${
+                  className={`px-4 py-3 text-sm bg-white/70 dark:bg-slate-950/50 border ${
                     errors.message ? "border-red-500" : "border-slate-200 dark:border-slate-800"
-                  } hover:border-slate-350 focus:border-indigo-500 dark:hover:border-slate-700 dark:focus:border-indigo-400 rounded-lg outline-none transition resize-none`}
+                  } hover:border-slate-350 focus:border-fuchsia-500 dark:hover:border-slate-700 dark:focus:border-fuchsia-400 rounded-lg outline-none transition resize-none`}
                 />
                 {errors.message && (
                   <span className="text-[11px] text-red-500 font-medium flex items-center gap-1 mt-0.5">
@@ -369,7 +369,7 @@ export default function Contact() {
                 type="submit"
                 id="contact-submit-btn"
                 disabled={isSubmitting}
-                className="w-full flex items-center justify-center gap-2 cursor-pointer bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-450 dark:disabled:bg-slate-800 disabled:cursor-not-allowed text-white rounded-lg py-3 text-sm font-semibold shadow hover:shadow-lg transition-all"
+                className="w-full flex items-center justify-center gap-2 cursor-pointer btn-gradient disabled:from-slate-400 disabled:to-slate-450 dark:disabled:from-slate-800 dark:disabled:to-slate-800 disabled:cursor-not-allowed disabled:shadow-none rounded-lg py-3 text-sm font-semibold transition-all"
               >
                 {isSubmitting ? (
                   <>

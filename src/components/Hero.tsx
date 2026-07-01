@@ -19,15 +19,8 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center pt-24 pb-16 overflow-hidden bg-slate-50 dark:bg-slate-950 transition-colors duration-300"
+      className="relative min-h-screen flex items-center pt-24 pb-16 overflow-hidden bg-transparent transition-colors duration-300"
     >
-      {/* Decorative ambient background mesh blobs */}
-      <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-indigo-400/20 dark:bg-indigo-900/10 blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-96 h-96 rounded-full bg-cyan-400/20 dark:bg-cyan-900/10 blur-[120px] pointer-events-none" />
-
-      {/* Grid Pattern overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-size-[14px_24px] mask-[radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none" />
-
       <div className="relative max-w-7xl mx-auto px-6 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         {/* Left column: Text Content */}
         <div className="lg:col-span-7 flex flex-col items-start gap-6">
@@ -35,7 +28,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 dark:bg-indigo-950/50 border border-indigo-100/80 dark:border-indigo-900/30 rounded-full text-indigo-700 dark:text-indigo-400 font-mono text-xs font-semibold uppercase tracking-wider"
+            className="inline-flex items-center gap-2 px-3 py-1 glass-chip rounded-full text-fuchsia-700 dark:text-fuchsia-400 font-mono text-xs font-semibold uppercase tracking-wider shadow-sm"
           >
             <Sparkles size={13} className="animate-spin-slow" />
             <span>Open to Work</span>
@@ -48,7 +41,7 @@ export default function Hero() {
             className="text-4xl sm:text-5xl md:text-6xl font-display font-extrabold text-slate-900 dark:text-white leading-[1.1] tracking-tight text-left"
           >
             I build apps and interfaces{" "}
-            <span className="text-transparent bg-clip-text bg-linear-to-r from-indigo-600 via-purple-600 to-indigo-500 dark:from-indigo-400 dark:via-purple-400 dark:to-cyan-400">
+            <span className="gradient-text bg-size-[200%_auto] animate-gradient-x">
               people enjoy using
             </span>
           </motion.h1>
@@ -72,7 +65,7 @@ export default function Hero() {
             {codePills.map((pill, idx) => (
               <span
                 key={idx}
-                className="px-3 py-1 text-xs font-medium font-mono bg-white dark:bg-slate-900 border border-slate-150 dark:border-slate-800 text-slate-500 dark:text-slate-400 rounded-md"
+                className="px-3 py-1 text-xs font-medium font-mono glass-chip text-slate-600 dark:text-slate-300 rounded-md"
               >
                 {pill}
               </span>
@@ -88,7 +81,7 @@ export default function Hero() {
           >
             <button
               onClick={() => scrollToSection("projects")}
-              className="flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] text-white rounded-lg shadow-sm hover:shadow-lg hover:shadow-indigo-500/10 font-display font-medium text-[15px] transition-all cursor-pointer"
+              className="flex items-center gap-2 px-6 py-3 btn-gradient active:scale-[0.98] rounded-lg font-display font-medium text-[15px] transition-all cursor-pointer"
             >
               Explore Work
               <ArrowRight size={16} />
@@ -96,7 +89,7 @@ export default function Hero() {
 
             <button
               onClick={() => scrollToSection("contact")}
-              className="flex items-center gap-2 px-6 py-3 bg-white hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-800/80 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 font-display font-medium text-[15px] rounded-lg transition-all cursor-pointer"
+              className="flex items-center gap-2 px-6 py-3 glass-chip hover:bg-white/80 dark:hover:bg-white/10 text-slate-800 dark:text-slate-100 font-display font-medium text-[15px] rounded-lg transition-all cursor-pointer"
             >
               Let's Talk
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -110,16 +103,19 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7 }}
-            className="relative w-full max-w-sm sm:max-w-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-2xl rounded-2xl p-6 overflow-hidden group"
+            className="relative w-full max-w-sm sm:max-w-md glass-card glow-violet rounded-2xl p-6 overflow-hidden group"
           >
+            {/* Gradient glow ring */}
+            <div className="absolute -inset-px rounded-2xl bg-linear-to-br from-violet-500/20 via-transparent to-cyan-500/20 pointer-events-none" />
+
             {/* Top Bar decorative header */}
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800/60">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-200/60 dark:border-slate-800/60">
               <div className="flex items-center gap-1.5">
                 <span className="w-3 h-3 rounded-full bg-red-400 inline-block" />
                 <span className="w-3 h-3 rounded-full bg-yellow-400 inline-block" />
                 <span className="w-3 h-3 rounded-full bg-green-400 inline-block" />
               </div>
-              <span className="text-[11px] font-mono text-slate-400 dark:text-slate-500 bg-slate-50 dark:bg-slate-950 px-2 py-0.5 rounded border border-slate-100 dark:border-slate-850">
+              <span className="text-[11px] font-mono text-slate-400 dark:text-slate-500 glass-chip px-2 py-0.5 rounded">
                 jason-david.tsx
               </span>
             </div>
@@ -127,7 +123,7 @@ export default function Hero() {
             {/* Simulated styled micro code console */}
             <div className="py-4 font-mono text-xs text-left leading-relaxed text-slate-600 dark:text-slate-300">
               <span className="text-violet-500">const</span>{" "}
-              <span className="text-blue-500">developer</span> = {"{"}
+              <span className="text-fuchsia-500">developer</span> = {"{"}
               <div className="pl-4">
                 role: <span className="text-emerald-500">"Software Developer"</span>,
                 <br />
@@ -155,13 +151,13 @@ export default function Hero() {
             </div>
 
             {/* Real metric stats embedded right in hero card */}
-            <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-100 dark:border-slate-800/60 mt-2">
+            <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-200/60 dark:border-slate-800/60 mt-2">
               {DEV_INFO.stats.map((stat, idx) => (
                 <div
                   key={idx}
-                  className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/50 border border-slate-100 dark:border-slate-850/80 hover:border-indigo-200 dark:hover:border-indigo-950 transition-colors"
+                  className="p-3 rounded-xl glass-chip hover:border-fuchsia-300/60 dark:hover:border-fuchsia-800/60 transition-colors"
                 >
-                  <div className="text-xl sm:text-2xl font-display font-extrabold text-slate-900 dark:text-white">
+                  <div className="text-xl sm:text-2xl font-display font-extrabold gradient-text">
                     {stat.value}
                   </div>
                   <div className="text-[11px] font-mono text-slate-400 dark:text-slate-500 uppercase tracking-tight mt-0.5">
@@ -175,7 +171,7 @@ export default function Hero() {
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-              className="absolute -top-4 -right-4 p-3 bg-indigo-600 text-white rounded-full shadow-lg scale-75 group-hover:scale-95 transition-transform duration-300 pointer-events-none"
+              className="absolute -top-4 -right-4 p-3 gradient-fill text-white rounded-full shadow-lg shadow-fuchsia-500/30 scale-75 group-hover:scale-95 transition-transform duration-300 pointer-events-none"
             >
               <Code2 size={24} />
             </motion.div>
@@ -183,7 +179,7 @@ export default function Hero() {
             <motion.div
               animate={{ y: [0, 8, 0] }}
               transition={{ repeat: Infinity, duration: 4.5, delay: 1, ease: "easeInOut" }}
-              className="absolute bottom-16 -left-4 p-2 bg-linear-to-tr from-cyan-500 to-teal-400 text-white rounded-full shadow-lg scale-75 pointer-events-none"
+              className="absolute bottom-16 -left-4 p-2 bg-linear-to-tr from-cyan-500 to-teal-400 text-white rounded-full shadow-lg shadow-cyan-500/30 scale-75 pointer-events-none"
             >
               <Layers size={20} />
             </motion.div>
@@ -198,7 +194,7 @@ export default function Hero() {
         </span>
         <button
           onClick={() => scrollToSection("about")}
-          className="p-1 rounded-full text-slate-450 hover:text-indigo-600 dark:text-slate-500 dark:hover:text-indigo-400 animate-bounce cursor-pointer"
+          className="p-1 rounded-full text-slate-450 hover:text-fuchsia-600 dark:text-slate-500 dark:hover:text-fuchsia-400 animate-bounce cursor-pointer"
         >
           <ArrowDown size={16} />
         </button>

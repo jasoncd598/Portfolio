@@ -7,10 +7,10 @@ import { PROJECTS } from "../data";
 import { Project } from "../types";
 
 const CATEGORY_GRADIENTS: Record<string, string> = {
-  "Mobile UI": "from-indigo-600 via-purple-600 to-violet-700",
-  "Web Apps": "from-teal-500 via-cyan-600 to-sky-700",
-  "Creative Code": "from-orange-500 via-amber-500 to-yellow-600",
-  "Interactive Design": "from-pink-500 via-rose-500 to-red-600",
+  "Mobile UI": "from-violet-600 via-fuchsia-600 to-indigo-700",
+  "Web Apps": "from-cyan-500 via-teal-600 to-sky-700",
+  "Creative Code": "from-amber-500 via-orange-500 to-fuchsia-600",
+  "Interactive Design": "from-pink-500 via-fuchsia-500 to-violet-600",
 };
 
 export default function Projects() {
@@ -19,18 +19,18 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="py-24 border-t border-slate-100 dark:border-slate-900 bg-slate-50 dark:bg-slate-950 transition-colors duration-300 relative"
+      className="py-24 border-t border-slate-200/60 dark:border-white/5 bg-transparent transition-colors duration-300 relative"
     >
       <div className="max-w-5xl mx-auto px-6">
         {/* Section Heading */}
         <div className="flex flex-col items-center text-center mb-16">
-          <span className="text-xs font-mono font-bold tracking-widest text-indigo-600 dark:text-indigo-400 uppercase mb-2 inline-flex items-center gap-1.5 bg-indigo-50 dark:bg-indigo-950/45 px-3 py-1 rounded-full">
+          <span className="text-xs font-mono font-bold tracking-widest text-fuchsia-700 dark:text-fuchsia-400 uppercase mb-2 inline-flex items-center gap-1.5 glass-chip px-3 py-1 rounded-full">
             <Briefcase size={12} /> Work
           </span>
           <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-slate-900 dark:text-white tracking-tight">
             Selected Projects
           </h2>
-          <div className="w-12 h-1 bg-indigo-600 dark:bg-indigo-400 rounded-full mt-4" />
+          <div className="w-12 h-1 gradient-fill rounded-full mt-4" />
           <p className="text-sm text-slate-500 dark:text-slate-400 max-w-lg mt-3">
             Client work and personal projects built for production — real deployments, real users.
           </p>
@@ -46,7 +46,7 @@ export default function Projects() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: idx * 0.1 }}
-              className="group flex flex-col bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-2xl overflow-hidden hover:shadow-xl hover:border-indigo-200 dark:hover:border-indigo-900/60 transition-all duration-300"
+              className="group flex flex-col glass-card rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-fuchsia-500/10 hover:border-fuchsia-300/60 dark:hover:border-fuchsia-800/60 transition-all duration-300"
             >
               {/* Banner */}
               <div
@@ -111,24 +111,24 @@ export default function Projects() {
                   {project.tags.slice(0, 4).map((tag) => (
                     <span
                       key={tag}
-                      className="px-2 py-0.5 text-[10px] font-mono bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 rounded"
+                      className="px-2 py-0.5 text-[10px] font-mono glass-chip text-slate-500 dark:text-slate-400 rounded"
                     >
                       {tag}
                     </span>
                   ))}
                   {project.tags.length > 4 && (
-                    <span className="px-1.5 py-0.5 text-[10px] font-mono bg-slate-100 dark:bg-slate-800 text-slate-400 rounded">
+                    <span className="px-1.5 py-0.5 text-[10px] font-mono glass-chip text-slate-400 rounded">
                       +{project.tags.length - 4}
                     </span>
                   )}
                 </div>
 
                 {/* Action row */}
-                <div className="flex items-center justify-between pt-3 mt-auto border-t border-slate-100 dark:border-slate-800">
+                <div className="flex items-center justify-between pt-3 mt-auto border-t border-slate-200/60 dark:border-slate-800">
                   <button
                     id={`project-view-btn-${project.id}`}
                     onClick={() => setActiveProject(project)}
-                    className="flex items-center gap-1.5 text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors cursor-pointer group/btn"
+                    className="flex items-center gap-1.5 text-xs font-semibold gradient-text hover:opacity-80 transition-opacity cursor-pointer group/btn"
                   >
                     <Eye size={13} />
                     Case Study
@@ -141,7 +141,7 @@ export default function Projects() {
                         target="_blank"
                         rel="noopener noreferrer"
                         title="Live Demo"
-                        className="p-1.5 rounded-lg text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all"
+                        className="p-1.5 rounded-lg text-slate-400 hover:text-fuchsia-600 dark:hover:text-fuchsia-400 hover:bg-white/60 dark:hover:bg-white/5 transition-all"
                       >
                         <ExternalLink size={14} />
                       </a>
@@ -152,7 +152,7 @@ export default function Projects() {
                         target="_blank"
                         rel="noopener noreferrer"
                         title="Source Code"
-                        className="p-1.5 rounded-lg text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all"
+                        className="p-1.5 rounded-lg text-slate-400 hover:text-fuchsia-600 dark:hover:text-fuchsia-400 hover:bg-white/60 dark:hover:bg-white/5 transition-all"
                       >
                         <Github size={14} />
                       </a>
@@ -180,7 +180,7 @@ export default function Projects() {
                 exit={{ opacity: 0, y: 48 }}
                 transition={{ duration: 0.28, ease: "easeOut" }}
                 id="lightbox-content"
-                className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full sm:max-w-2xl lg:max-w-3xl rounded-t-2xl sm:rounded-2xl shadow-2xl overflow-hidden relative flex flex-col max-h-[92dvh] sm:max-h-[86vh]"
+                className="glass-card w-full sm:max-w-2xl lg:max-w-3xl rounded-t-2xl sm:rounded-2xl shadow-2xl overflow-hidden relative flex flex-col max-h-[92dvh] sm:max-h-[86vh]"
               >
                 {/* Close */}
                 <button
@@ -213,7 +213,7 @@ export default function Projects() {
                   )}
                   <div className="absolute inset-0 bg-linear-to-t from-slate-950/60 to-transparent" />
                   <div className="absolute bottom-4 left-5 right-12">
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 bg-indigo-600 text-white rounded">
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 gradient-fill text-white rounded">
                       {activeProject.category}
                     </span>
                     <h3 className="text-xl sm:text-2xl font-display font-extrabold text-white mt-2 leading-tight">
@@ -227,7 +227,7 @@ export default function Projects() {
                   <div className="p-5 sm:p-6 flex flex-col gap-5 text-left">
 
                     {/* Meta row */}
-                    <div className="flex flex-wrap gap-x-6 gap-y-3 pb-4 border-b border-slate-100 dark:border-slate-800">
+                    <div className="flex flex-wrap gap-x-6 gap-y-3 pb-4 border-b border-slate-200/60 dark:border-slate-800">
                       {activeProject.client && (
                         <div className="flex flex-col gap-0.5">
                           <span className="text-[10px] font-mono text-slate-400 uppercase tracking-tight">Client</span>
@@ -237,7 +237,7 @@ export default function Projects() {
                       {activeProject.role && (
                         <div className="flex flex-col gap-0.5">
                           <span className="text-[10px] font-mono text-slate-400 uppercase tracking-tight">Role</span>
-                          <span className="text-xs font-semibold text-indigo-600 dark:text-indigo-400">{activeProject.role}</span>
+                          <span className="text-xs font-semibold gradient-text">{activeProject.role}</span>
                         </div>
                       )}
                       {activeProject.duration && (
@@ -270,7 +270,7 @@ export default function Projects() {
                         <ul className="flex flex-col gap-2">
                           {activeProject.features.map((feat, idx) => (
                             <li key={idx} className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-300">
-                              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-1.5 shrink-0" />
+                              <span className="w-1.5 h-1.5 rounded-full gradient-fill mt-1.5 shrink-0" />
                               {feat}
                             </li>
                           ))}
@@ -287,7 +287,7 @@ export default function Projects() {
                         {activeProject.tags.map((tag) => (
                           <span
                             key={tag}
-                            className="px-2.5 py-1 text-xs font-mono bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-md"
+                            className="px-2.5 py-1 text-xs font-mono glass-chip text-slate-600 dark:text-slate-300 rounded-md"
                           >
                             {tag}
                           </span>
@@ -304,7 +304,7 @@ export default function Projects() {
                             href={activeProject.demoUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-1.5 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition"
+                            className="flex items-center gap-1.5 px-4 py-2.5 btn-gradient rounded-lg text-sm font-medium transition"
                           >
                             <ExternalLink size={13} />
                             Live Demo
