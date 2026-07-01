@@ -4,7 +4,7 @@ Full-stack developer with hands-on experience in React Native, having built and 
 
 This repo is the source for my personal portfolio — built to showcase real, shipped work: a Flutter app migration serving live users, client sites running on real cloud infrastructure, and this site itself.
 
-**🔗 Live site:** _add your deployed Vercel URL here_
+**🔗 Live site:** [https://portfolio-jcd.vercel.app/](https://portfolio-jcd.vercel.app/)
 **📧 Contact:** jaycd598@gmail.com
 **📍 Based in:** Angeles City, Pampanga, Philippines (open to remote work)
 
