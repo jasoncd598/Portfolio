@@ -31,7 +31,7 @@ export default function Resume() {
           </h2>
           <div className="w-12 h-1 bg-indigo-600 dark:bg-indigo-400 rounded-full mt-4" />
           <p className="text-sm text-slate-500 dark:text-slate-400 max-w-lg mt-3 text-center">
-            A record of where I've worked, what I built, and the impact it delivered.
+            Where I've worked and what I built while I was there.
           </p>
         </div>
 

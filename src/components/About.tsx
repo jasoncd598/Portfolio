@@ -19,7 +19,7 @@ export default function About() {
             <User size={12} /> About Me
           </span>
           <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-slate-900 dark:text-white tracking-tight">
-            Cultivating Code, Motion & Clean Aesthetic
+            A Bit About Me
           </h2>
           <div className="w-12 h-1 bg-indigo-600 dark:bg-indigo-400 rounded-full mt-4" />
         </div>
@@ -30,7 +30,7 @@ export default function About() {
           <div className="lg:col-span-6 flex flex-col gap-6 text-left">
             <h3 className="text-2xl font-display font-bold text-slate-900 dark:text-white flex items-center gap-2">
               <Flame className="text-violet-500 shrink-0" size={24} />
-              The Developer-Designer Hybrid
+              How I Work
             </h3>
 
             <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-md">
@@ -38,7 +38,7 @@ export default function About() {
             </p>
 
             <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-md">
-              From building React Native apps for a live fintech product — while contributing to an in-progress migration to Flutter — to deploying AWS-hosted websites with full CI/CD pipelines, I bring the same discipline to every engagement: <strong>ship it clean, ship it secure, make it fast</strong>.
+              Whether it's a React Native app at BC Remittance or a client site deployed on AWS, I approach it the same way: <strong>keep the code clean, keep it secure, and keep it fast</strong>.
             </p>
 
             {/* Micro Details checklist */}

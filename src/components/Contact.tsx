@@ -48,26 +48,26 @@ export default function Contact() {
     const newErrors: Record<string, string> = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = "Please tell me your name so I can address you appropriately.";
+      newErrors.name = "Please enter your name.";
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = "Please state your email address so I can respond to your proposal.";
+      newErrors.email = "Please enter your email address.";
     } else {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(formData.email)) {
-        newErrors.email = "This email address format doesn't look correct.";
+        newErrors.email = "That email address doesn't look right.";
       }
     }
 
     if (!formData.subject.trim()) {
-      newErrors.subject = "Please specify a brief subject line for your project inquiry.";
+      newErrors.subject = "Please add a subject.";
     }
 
     if (!formData.message.trim()) {
-      newErrors.message = "Please write a brief description of what you are building.";
+      newErrors.message = "Please add a message.";
     } else if (formData.message.trim().length < 15) {
-      newErrors.message = "Please detail your request a bit further (at least 15 characters).";
+      newErrors.message = "Please add a bit more detail (at least 15 characters).";
     }
 
     setErrors(newErrors);
@@ -134,11 +134,11 @@ export default function Contact() {
             <Mail size={12} /> Contact
           </span>
           <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-slate-900 dark:text-white tracking-tight">
-            Initiate An Engagement
+            Get In Touch
           </h2>
           <div className="w-12 h-1 bg-indigo-600 dark:bg-indigo-400 rounded-full mt-4" />
           <p className="text-sm text-slate-500 dark:text-slate-400 max-w-lg mt-3 text-center">
-            Ready to convert your visual concept into a robust codebase? Drop a message detailing your requirements.
+            Have a project in mind? Send me a message and let's talk about it.
           </p>
         </div>
 
@@ -172,7 +172,7 @@ export default function Contact() {
                   <Phone size={18} />
                 </div>
                 <div>
-                  <h4 className="text-[10px] font-mono text-slate-400 uppercase tracking-tight">Direct Line / Signal</h4>
+                  <h4 className="text-[10px] font-mono text-slate-400 uppercase tracking-tight">Phone</h4>
                   <a href={`tel:${DEV_INFO.phone}`} className="text-sm font-semibold text-slate-800 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition">
                     {DEV_INFO.phone}
                   </a>
@@ -184,7 +184,7 @@ export default function Contact() {
                   <MapPin size={18} />
                 </div>
                 <div>
-                  <h4 className="text-[10px] font-mono text-slate-400 uppercase tracking-tight">HQ Coordinates</h4>
+                  <h4 className="text-[10px] font-mono text-slate-400 uppercase tracking-tight">Location</h4>
                   <span className="text-sm font-semibold text-slate-800 dark:text-slate-250">
                     {DEV_INFO.location}
                   </span>
@@ -320,7 +320,7 @@ export default function Contact() {
               {/* Message Box */}
               <div className="flex flex-col gap-1.5">
                 <label htmlFor="message" className="text-xs font-mono font-bold text-slate-500 dark:text-slate-400">
-                  Project Brief or Inquiry Details
+                  Message
                 </label>
                 <textarea
                   id="message"
@@ -328,7 +328,7 @@ export default function Contact() {
                   rows={5}
                   value={formData.message}
                   onChange={handleChange}
-                  placeholder="Describe your goals, tech stack, timeline & coordinate constraints..."
+                  placeholder="Tell me about your project, timeline, and budget..."
                   className={`px-4 py-3 text-sm bg-white dark:bg-slate-950 border ${
                     errors.message ? "border-red-500" : "border-slate-200 dark:border-slate-800"
                   } hover:border-slate-350 focus:border-indigo-500 dark:hover:border-slate-700 dark:focus:border-indigo-400 rounded-lg outline-none transition resize-none`}
@@ -351,12 +351,12 @@ export default function Contact() {
                 {isSubmitting ? (
                   <>
                     <RefreshCw size={16} className="animate-spin" />
-                    Validating & Dispatching...
+                    Sending...
                   </>
                 ) : (
                   <>
                     <Send size={15} />
-                    Send Project Inquiry
+                    Send Message
                   </>
                 )}
               </button>

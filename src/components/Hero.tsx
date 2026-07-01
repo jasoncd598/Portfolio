@@ -38,7 +38,7 @@ export default function Hero() {
             className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 dark:bg-indigo-950/50 border border-indigo-100/80 dark:border-indigo-900/30 rounded-full text-indigo-700 dark:text-indigo-400 font-mono text-xs font-semibold uppercase tracking-wider"
           >
             <Sparkles size={13} className="animate-spin-slow" />
-            <span>Available for Freelance Projects</span>
+            <span>Open to Work</span>
           </motion.div>
 
           <motion.h1
