@@ -104,6 +104,25 @@ export const PROJECTS: Project[] = [
     ],
     githubUrl: "https://github.com/jasoncd598/Vesta"
   },
+  {
+    id: "astra",
+    title: "Astra",
+    category: "Mobile UI",
+    summary: "Flutter wellness companion app for building healthy daily habits — water, sleep, streaks, tips, and a community feed.",
+    description: "Astra is a Flutter wellness companion app that helps users build healthy daily habits. It combines water intake tracking, sleep logging, habit streaks, curated wellness tips, and a social community feed into one dashboard.",
+    tags: ["Flutter", "Dart", "Mobile App", "Firebase"],
+    client: "Personal Project",
+    role: "Mobile Developer",
+    duration: "2026",
+    features: [
+      "Water intake tracking with daily goals",
+      "Sleep logging and history",
+      "Habit streak tracking to build consistency",
+      "Curated wellness tips",
+      "Social community feed for shared motivation",
+      "All-in-one wellness dashboard"
+    ],
+  },
 ];
 
 export const EXPERIENCES: Experience[] = [

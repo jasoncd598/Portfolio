@@ -59,8 +59,8 @@ describe("PROJECTS", () => {
     expect(PROJECTS.length).toBeGreaterThan(0);
   });
 
-  it("has exactly 3 projects", () => {
-    expect(PROJECTS).toHaveLength(3);
+  it("has exactly 4 projects", () => {
+    expect(PROJECTS).toHaveLength(4);
   });
 
   it("every project has a unique id", () => {
