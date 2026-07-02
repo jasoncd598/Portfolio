@@ -7,7 +7,7 @@ import { PROJECTS } from "../data";
 import { Project } from "../types";
 
 const CATEGORY_GRADIENTS: Record<string, string> = {
-  "Mobile UI": "from-violet-600 via-fuchsia-600 to-indigo-700",
+  "Mobile Application": "from-violet-600 via-fuchsia-600 to-indigo-700",
   "Web Apps": "from-cyan-500 via-teal-600 to-sky-700",
   "Creative Code": "from-amber-500 via-orange-500 to-fuchsia-600",
   "Interactive Design": "from-pink-500 via-fuchsia-500 to-violet-600",

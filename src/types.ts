@@ -1,7 +1,7 @@
 export interface Project {
   id: string;
   title: string;
-  category: "Web Apps" | "Mobile UI" | "Creative Code" | "Interactive Design";
+  category: "Web Apps" | "Mobile Application" | "Creative Code" | "Interactive Design";
   summary: string;
   description: string;
   tags: string[];

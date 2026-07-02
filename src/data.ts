@@ -107,10 +107,10 @@ export const PROJECTS: Project[] = [
   {
     id: "astra",
     title: "Astra",
-    category: "Mobile UI",
+    category: "Mobile Application",
     summary: "Flutter wellness companion app for building healthy daily habits — water, sleep, streaks, tips, and a community feed.",
     description: "Astra is a Flutter wellness companion app that helps users build healthy daily habits. It combines water intake tracking, sleep logging, habit streaks, curated wellness tips, and a social community feed into one dashboard.",
-    tags: ["Flutter", "Dart", "Mobile App", "Firebase"],
+    tags: ["Flutter", "Dart", "Mobile App", "Firebase", "Work in Progress"],
     client: "Personal Project",
     role: "Mobile Developer",
     duration: "2026",
@@ -121,6 +121,27 @@ export const PROJECTS: Project[] = [
       "Curated wellness tips",
       "Social community feed for shared motivation",
       "All-in-one wellness dashboard"
+    ],
+  },
+  {
+    id: "yarine",
+    title: "Yarine",
+    category: "Web Apps",
+    summary: "Website for a Philippine software studio that partners with startups to build fast, scalable, and beautiful digital products.",
+    description: "Yarine is a Philippine software development studio that partners with startups and growing businesses to turn ideas into fast, scalable, and beautiful digital products. Built with Next.js 16 and React 19, with a PostgreSQL/Prisma backend, Supabase auth, and Resend-powered contact and quote form emails.",
+    tags: ["Next.js", "React", "TypeScript", "Prisma", "PostgreSQL", "Supabase", "Tailwind CSS", "shadcn/ui"],
+    imageUrl: "/projects/yarine.png",
+    client: "Yarine",
+    role: "Full-Stack Developer",
+    duration: "2026",
+    features: [
+      "Built with Next.js 16 App Router and React 19",
+      "PostgreSQL database managed through Prisma ORM",
+      "Supabase auth and SSR client helpers for admin access",
+      "Contact and quote form notifications via Resend with React email templates",
+      "Forms validated with React Hook Form, Zod, and shared client/server schemas",
+      "UI built with shadcn/ui on Radix primitives and Tailwind CSS",
+      "Unit and integration tests with Vitest, deployed on Vercel"
     ],
   },
 ];

@@ -79,7 +79,7 @@ describe("PROJECTS", () => {
   });
 
   it("every project has a valid category", () => {
-    const validCategories = ["Web Apps", "Mobile UI", "Creative Code", "Interactive Design"];
+    const validCategories = ["Web Apps", "Mobile Application", "Creative Code", "Interactive Design"];
     PROJECTS.forEach((project) => {
       expect(validCategories).toContain(project.category);
     });
