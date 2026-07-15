@@ -7,6 +7,8 @@ export interface Project {
   tags: string[];
   imageUrl?: string;
   demoUrl?: string;
+  demoLabel?: string;
+  demoIconUrl?: string;
   githubUrl?: string;
   client?: string;
   role?: string;

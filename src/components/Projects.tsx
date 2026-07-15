@@ -140,10 +140,14 @@ export default function Projects() {
                         href={project.demoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        title="Live Demo"
+                        title={project.demoLabel || "Live Demo"}
                         className="p-1.5 rounded-lg text-slate-400 hover:text-fuchsia-600 dark:hover:text-fuchsia-400 hover:bg-white/60 dark:hover:bg-white/5 transition-all"
                       >
-                        <ExternalLink size={14} />
+                        {project.demoIconUrl ? (
+                          <Image src={project.demoIconUrl} alt="" width={14} height={14} />
+                        ) : (
+                          <ExternalLink size={14} />
+                        )}
                       </a>
                     )}
                     {project.githubUrl && (
@@ -306,8 +310,12 @@ export default function Projects() {
                             rel="noopener noreferrer"
                             className="flex items-center gap-1.5 px-4 py-2.5 btn-gradient rounded-lg text-sm font-medium transition"
                           >
-                            <ExternalLink size={13} />
-                            Live Demo
+                            {activeProject.demoIconUrl ? (
+                              <Image src={activeProject.demoIconUrl} alt="" width={13} height={13} />
+                            ) : (
+                              <ExternalLink size={13} />
+                            )}
+                            {activeProject.demoLabel || "Live Demo"}
                           </a>
                         )}
                         {activeProject.githubUrl && (

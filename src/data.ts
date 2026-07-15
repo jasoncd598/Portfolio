@@ -109,8 +109,8 @@ export const PROJECTS: Project[] = [
     title: "Astra",
     category: "Mobile Application",
     summary: "Flutter wellness companion app for building healthy daily habits — water, sleep, streaks, tips, and a community feed.",
-    description: "Astra is a Flutter wellness companion app that helps users build healthy daily habits. It combines water intake tracking, sleep logging, habit streaks, curated wellness tips, and a social community feed into one dashboard.",
-    tags: ["Flutter", "Dart", "Mobile App", "Firebase", "Work in Progress"],
+    description: "Astra is a Flutter wellness companion app that helps users build healthy daily habits. It combines water intake tracking, sleep logging, habit streaks, curated wellness tips, and a social community feed into one dashboard. Published and available on the Google Play Store.",
+    tags: ["Flutter", "Dart", "Mobile App", "Firebase"],
     client: "Personal Project",
     role: "Mobile Developer",
     duration: "2026",
@@ -122,6 +122,9 @@ export const PROJECTS: Project[] = [
       "Social community feed for shared motivation",
       "All-in-one wellness dashboard"
     ],
+    demoUrl: "https://play.google.com/store/apps/details?id=com.astra.astra",
+    demoLabel: "Install on Play Store",
+    demoIconUrl: "/projects/playstore.png"
   },
   {
     id: "yarine",
