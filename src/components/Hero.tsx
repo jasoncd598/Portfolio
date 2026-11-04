@@ -2,7 +2,7 @@ import { DEV_INFO } from "../data";
 
 const LINES: { text: React.ReactNode; delay: number }[] = [
   { text: "I build apps", delay: 0.1 },
-  { text: <>people <em className="text-accent">actually</em></>, delay: 0.22 },
+  { text: <>people <em>actually</em></>, delay: 0.22 },
   { text: "enjoy using.", delay: 0.34 },
 ];
 
@@ -20,7 +20,7 @@ export default function Hero() {
         </p>
       </div>
 
-      <h1 className="mt-10 font-serif text-[clamp(3.4rem,11.5vw,10.5rem)] leading-[0.92] tracking-[-0.02em]">
+      <h1 className="mt-10 display text-[clamp(4rem,14vw,13rem)]">
         {LINES.map((line, i) => (
           <span key={i} className="block">
             <span className="rise-mask">
@@ -45,7 +45,7 @@ export default function Hero() {
             {DEV_INFO.stats.map((s, i) => (
               <div key={s.label} className={`pt-4 ${i > 0 ? "border-l border-line pl-4 sm:pl-6" : ""}`}>
                 <dt className="kicker">{s.label}</dt>
-                <dd className="mt-2 font-serif text-5xl sm:text-6xl leading-none">{s.value}</dd>
+                <dd className="mt-2 display text-6xl sm:text-7xl">{s.value}</dd>
               </div>
             ))}
           </dl>
@@ -75,7 +75,7 @@ export default function Hero() {
             <textPath href="#circle">SELECTED WORK · 2021 — 2026 · </textPath>
           </text>
         </svg>
-        <span className="absolute inset-0 grid place-items-center font-serif text-3xl text-accent">↓</span>
+        <span className="absolute inset-0 grid place-items-center text-3xl text-accent">↓</span>
       </a>
     </section>
   );

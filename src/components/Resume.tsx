@@ -32,7 +32,7 @@ export default function Resume() {
               >
                 <span className="col-span-12 kicker sm:col-span-3">{exp.period}</span>
                 <span className="col-span-10 sm:col-span-8">
-                  <span className="block font-serif text-3xl leading-tight transition-colors group-hover:text-accent sm:text-4xl">
+                  <span className="block display text-4xl transition-colors group-hover:text-accent sm:text-5xl">
                     {exp.role}
                   </span>
                   <span className="mt-1 block text-sm text-ink-2">

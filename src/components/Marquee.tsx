@@ -18,8 +18,8 @@ function Row() {
     <ul className="flex shrink-0 items-center" aria-hidden>
       {ITEMS.map((item) => (
         <li key={item} className="flex items-center">
-          <span className="px-6 font-serif text-3xl italic sm:text-4xl">{item}</span>
-          <span className="text-accent text-lg">✳</span>
+          <span className="px-6 display text-4xl sm:text-5xl">{item}</span>
+          <span className="h-2.5 w-2.5 bg-accent" aria-hidden />
         </li>
       ))}
     </ul>

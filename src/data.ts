@@ -94,7 +94,7 @@ export const PROJECTS: Project[] = [
     id: "portfolio-site",
     title: "Personal Portfolio",
     category: "Web Apps",
-    summary: "Editorial-style developer portfolio built with Next.js, TypeScript, Tailwind CSS and Motion.",
+    summary: "Swiss-poster-style developer portfolio built with Next.js, TypeScript, Tailwind CSS and Motion.",
     description: "Designed and developed this personal portfolio site from scratch to showcase projects, experience, and skills. Built with Next.js, TypeScript, Tailwind CSS v4 and Motion, deployed on Vercel.",
     tags: ["Next.js", "TypeScript", "Tailwind CSS", "Motion", "Vercel"],
     imageUrl: "/projects/portfolio.webp",

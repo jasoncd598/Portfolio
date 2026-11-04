@@ -5,7 +5,7 @@ export default function PrintResume() {
   return (
     <article className="hidden print:block text-black text-[11pt] leading-snug font-sans p-0">
       <header className="border-b border-black pb-3">
-        <h1 className="font-serif text-[30pt] leading-none">{DEV_INFO.name}</h1>
+        <h1 className="text-[26pt] font-extrabold uppercase leading-none">{DEV_INFO.name}</h1>
         <p className="mt-1">{DEV_INFO.title}</p>
         <p className="mt-1 text-[9.5pt]">
           {DEV_INFO.email} · {DEV_INFO.phone} · {DEV_INFO.location}

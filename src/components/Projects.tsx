@@ -87,7 +87,7 @@ function CaseSheet({ project, onClose }: { project: Project; onClose: () => void
         </div>
 
         <div className="px-6 pb-16 pt-10 sm:px-10">
-          <h3 id="case-title" className="font-serif text-6xl leading-none sm:text-8xl">
+          <h3 id="case-title" className="display text-7xl sm:text-9xl">
             {project.title}
           </h3>
           <p className="mt-6 text-xl leading-relaxed text-ink-2">{project.summary}</p>
@@ -211,16 +211,16 @@ export default function Projects() {
               <span className="col-span-2 font-mono text-xs text-ink-3 sm:col-span-1">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <span className="col-span-10 sm:col-span-6">
-                <span className="block font-serif text-5xl leading-none transition-[transform,color] duration-500 ease-[cubic-bezier(.2,.7,.2,1)] group-hover:translate-x-3 group-hover:text-accent sm:text-7xl">
+              <span className="col-span-10 sm:col-span-8">
+                <span className="block display text-6xl transition-[transform,color] duration-500 ease-[cubic-bezier(.2,.7,.2,1)] group-hover:translate-x-3 group-hover:text-accent sm:text-7xl lg:text-8xl">
                   {p.title}
                 </span>
                 <span className="mt-3 block max-w-md text-sm text-ink-2">{p.summary}</span>
               </span>
-              <span className="col-span-6 col-start-3 kicker sm:col-span-3 sm:col-start-auto">
+              <span className="col-span-6 col-start-3 kicker sm:col-span-2 sm:col-start-auto">
                 {p.category}
               </span>
-              <span className="col-span-4 flex items-baseline justify-end gap-4 sm:col-span-2">
+              <span className="col-span-4 flex items-baseline justify-end gap-4 sm:col-span-1">
                 <span className="kicker">{year(p)}</span>
                 <span className="text-xl transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1">
                   ↗

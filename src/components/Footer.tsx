@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl overflow-hidden px-5 sm:px-8">
         <p
           aria-hidden
-          className="select-none whitespace-nowrap border-t border-line pt-6 font-serif text-[22vw] leading-[0.8] tracking-[-0.03em] text-ink/10 sm:text-[17vw]"
+          className="select-none whitespace-nowrap border-t border-line pt-6 display text-[24vw] text-ink/15 sm:text-[19.5vw]"
         >
           Jason David
         </p>

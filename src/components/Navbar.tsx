@@ -83,7 +83,7 @@ export default function Navbar() {
       >
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8">
           <a href="#top" className="group flex items-baseline gap-2" onClick={() => setOpen(false)}>
-            <span className="font-serif text-2xl leading-none">Jason David</span>
+            <span className="display text-2xl">Jason David</span>
             <span className="kicker hidden sm:inline transition-colors group-hover:text-accent">/ dev</span>
           </a>
 
@@ -143,7 +143,7 @@ export default function Navbar() {
                     onClick={() => setOpen(false)}
                     className="flex items-baseline justify-between py-5"
                   >
-                    <span className="font-serif text-5xl">{item.label}</span>
+                    <span className="display text-6xl">{item.label}</span>
                     <span className="font-mono text-xs text-ink-3">0{i + 1}</span>
                   </a>
                 </motion.li>

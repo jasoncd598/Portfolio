@@ -24,7 +24,7 @@ export default function About() {
                   alt={`Portrait of ${DEV_INFO.name}`}
                   fill
                   sizes="320px"
-                  className="object-cover grayscale-[35%] transition-[filter,transform] duration-700 group-hover:scale-[1.03] group-hover:grayscale-0"
+                  className="object-cover grayscale transition-[filter,transform] duration-700 group-hover:scale-[1.03] group-hover:grayscale-0"
                 />
               </div>
               <figcaption className="kicker mt-3 flex justify-between">
@@ -36,9 +36,9 @@ export default function About() {
 
           <div className="lg:col-span-8">
             <Reveal>
-              <p className="font-serif text-3xl leading-[1.2] sm:text-[2.6rem]">
+              <p className="text-2xl font-medium leading-[1.3] tracking-tight sm:text-[2.1rem]">
                 Five years of shipping apps to real people: from React Native to Flutter, from App Store
-                review queues to <em className="text-accent">server-authoritative</em> multiplayer.
+                review queues to <span className="text-accent">server-authoritative</span> multiplayer.
               </p>
             </Reveal>
             <Reveal delay={0.1}>
@@ -53,7 +53,7 @@ export default function About() {
                     className={`py-6 sm:pr-6 ${i > 0 ? "border-t border-line sm:border-t-0 sm:border-l sm:pl-6" : ""}`}
                   >
                     <span className="font-mono text-xs text-accent">0{i + 1}</span>
-                    <h3 className="mt-2 font-serif text-3xl">{title}</h3>
+                    <h3 className="mt-2 display text-4xl">{title}</h3>
                     <p className="mt-2 text-sm text-ink-2">{text}</p>
                   </li>
                 ))}

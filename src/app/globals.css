@@ -3,9 +3,9 @@
 @variant dark (&:where(.dark, .dark *));
 
 @theme inline {
-  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
-  --font-serif: var(--font-instrument), ui-serif, Georgia, serif;
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, SFMono-Regular, monospace;
+  --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
 
   --color-paper: var(--paper);
   --color-paper-2: var(--paper-2);
@@ -19,42 +19,52 @@
 }
 
 :root {
-  --paper: #f2eee6;
-  --paper-2: #e9e3d7;
-  --ink: #1a1815;
-  --ink-2: #57514a;
-  --ink-3: #8a8378;
-  --line: #d5ccbd;
-  --accent: #c8441d;
-  --accent-ink: #fff8f0;
-  --moss: #4d6b3c;
+  --paper: #eef0f2;
+  --paper-2: #e2e5e9;
+  --ink: #0a0b0d;
+  --ink-2: #4a4f57;
+  --ink-3: #868c95;
+  --line: #c9ced5;
+  --accent: #2341e0;
+  --accent-ink: #ffffff;
+  --moss: #1f9d55;
   color-scheme: light;
 }
 
 .dark {
-  --paper: #13120f;
-  --paper-2: #1c1a16;
-  --ink: #ede6d9;
-  --ink-2: #a8a092;
-  --ink-3: #6f685d;
-  --line: #2d2a24;
-  --accent: #ea6c41;
-  --accent-ink: #1a0f0a;
-  --moss: #8db071;
+  --paper: #0a0b0d;
+  --paper-2: #121418;
+  --ink: #e9ebee;
+  --ink-2: #a2a8b1;
+  --ink-3: #646a73;
+  --line: #24272d;
+  --accent: #6b80ff;
+  --accent-ink: #05060a;
+  --moss: #3ccf7a;
   color-scheme: dark;
 }
 
 /* Always-dark band (contact + footer), in either theme */
 .band-dark {
-  --paper: #1a1815;
-  --paper-2: #24211c;
-  --ink: #ede6d9;
-  --ink-2: #b3ab9d;
-  --ink-3: #7d766a;
-  --line: #35312a;
-  --accent: #ea6c41;
-  --accent-ink: #1a0f0a;
+  --paper: var(--accent-band, #2341e0);
+  --paper-2: #1a33b8;
+  --ink: #ffffff;
+  --ink-2: #d5dbff;
+  --ink-3: #a9b4ff;
+  --line: #4c64ec;
+  --accent: #ffffff;
+  --accent-ink: #2341e0;
   color-scheme: dark;
+}
+.dark .band-dark {
+  --paper: #121418;
+  --paper-2: #1a1d22;
+  --ink: #e9ebee;
+  --ink-2: #a2a8b1;
+  --ink-3: #646a73;
+  --line: #2a2e35;
+  --accent: #6b80ff;
+  --accent-ink: #05060a;
 }
 
 @layer base {
@@ -65,7 +75,6 @@
 
   body {
     @apply font-sans antialiased bg-paper text-ink;
-    font-feature-settings: "ss01", "cv11";
     text-rendering: optimizeLegibility;
   }
 
@@ -86,10 +95,17 @@
 }
 
 @layer components {
-  /* Paper grain — a tiny static SVG tile, no blend modes, no fixed layer */
-  .grain {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.45 0 0 0 0 0.4 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  /* Condensed poster type */
+  .display {
+    font-family: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+    font-stretch: 72%;
+    font-variation-settings: "wdth" 72;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.015em;
+    line-height: 0.88;
   }
+  .display em { font-style: normal; color: var(--accent); }
 
   .kicker {
     @apply font-mono text-[11px] uppercase tracking-[0.18em] text-ink-3;
@@ -174,5 +190,4 @@
 /* ---------- Print: only the résumé sheet ---------- */
 @media print {
   body { background: #fff !important; color: #000 !important; }
-  .grain { background-image: none !important; }
 }

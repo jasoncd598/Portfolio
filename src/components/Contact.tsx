@@ -98,7 +98,7 @@ export default function Contact() {
         <div className="mt-14 grid grid-cols-1 gap-16 lg:grid-cols-12">
           <div className="lg:col-span-6">
             <Reveal>
-              <p className="font-serif text-4xl leading-[1.1] sm:text-6xl">
+              <p className="display text-5xl sm:text-7xl">
                 Have an app or site in mind? I&apos;d like to hear about it.
               </p>
             </Reveal>
@@ -107,7 +107,7 @@ export default function Contact() {
               <div className="mt-12 flex flex-wrap items-center gap-4">
                 <a
                   href={`mailto:${DEV_INFO.email}`}
-                  className="link-draw font-serif text-3xl italic text-accent sm:text-4xl break-all"
+                  className="link-draw text-2xl font-medium tracking-tight text-ink sm:text-4xl break-all"
                 >
                   {DEV_INFO.email}
                 </a>
@@ -164,7 +164,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={status === "sending"}
-                  className="btn bg-accent text-accent-ink hover:bg-ink hover:text-paper disabled:opacity-60"
+                  className="btn bg-accent text-accent-ink hover:opacity-85 disabled:opacity-60"
                 >
                   {status === "sending" ? "Sending…" : "Send message"} <span aria-hidden>→</span>
                 </button>
