@@ -10,18 +10,18 @@ This repo is the source for my personal portfolio — built to showcase real, sh
 
 ## What's on the site
 
-- **Projects** — case studies for client work, including a rehabilitation clinic site on AWS Amplify and a studio marketing site on Vercel
-- **Experience** — my timeline from mobile development at BC Remittance Ltd. to founding Yarine
+- **Work** — case studies for Versus (a real-time 1v1 puzzle game on Google Play), a rehabilitation clinic site on AWS Amplify, and this site
+- **Experience** — my timeline from mobile development at BC Remittance Ltd. to freelance client work
 - **Skills** — mobile (Flutter, React Native), web (React/Next.js, Tailwind), and tooling (AWS, security scanning, CI/CD)
-- **Resume** — a printable, up-to-date summary of my background
-- **Contact** — a working form for inquiries, plus direct email/phone
+- **Resume** — a print-ready résumé (Print / Save as PDF from the Experience section)
+- **Contact** — a working form for inquiries (Formspree), plus direct email/phone
 
 ## Tech Stack
 
 - [Next.js 15](https://nextjs.org/) + [React 19](https://react.dev/) + TypeScript
 - [Tailwind CSS v4](https://tailwindcss.com/)
-- [Motion](https://motion.dev/) (Framer Motion) for animation
-- [Lucide React](https://lucide.dev/) for icons
+- [Motion](https://motion.dev/) for a few interactive animations; scroll reveals and the marquee are plain CSS (transform/opacity only, reduced-motion aware)
+- Geist, Geist Mono and Instrument Serif via `next/font`
 - [Vitest](https://vitest.dev/) for testing
 - Deployed on [Vercel](https://vercel.com/)
 

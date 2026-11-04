@@ -1,344 +1,250 @@
 "use client";
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "motion/react";
-import { Briefcase, Eye, Github, ExternalLink, X, Calendar, Code2, ArrowRight } from "lucide-react";
+import { motion, AnimatePresence, useMotionValue, useSpring, type MotionValue } from "motion/react";
 import { PROJECTS } from "../data";
 import { Project } from "../types";
+import SectionHead from "./SectionHead";
+import Reveal from "./Reveal";
 
-const CATEGORY_GRADIENTS: Record<string, string> = {
-  "Mobile Application": "from-violet-600 via-fuchsia-600 to-indigo-700",
-  "Web Apps": "from-cyan-500 via-teal-600 to-sky-700",
-  "Creative Code": "from-amber-500 via-orange-500 to-fuchsia-600",
-  "Interactive Design": "from-pink-500 via-fuchsia-500 to-violet-600",
-};
+const year = (p: Project) => p.duration?.match(/\d{4}/)?.[0] ?? "";
+const isPhone = (p: Project) => Boolean(p.gallery?.length);
 
-export default function Projects() {
-  const [activeProject, setActiveProject] = useState<Project | null>(null);
+/* ---------- Cursor-following preview (desktop, fine pointers only) ---------- */
+
+function FloatingPreview({ active, x, y }: { active: number | null; x: MotionValue<number>; y: MotionValue<number> }) {
+  return (
+    <motion.div
+      className="pointer-events-none fixed left-0 top-0 z-30 hidden h-0 w-0 md:block"
+      style={{ x, y }}
+      aria-hidden
+    >
+      <motion.div
+        animate={{ opacity: active === null ? 0 : 1, scale: active === null ? 0.85 : 1, rotate: active === null ? -6 : -2 }}
+        transition={{ duration: 0.3, ease: [0.2, 0.75, 0.15, 1] }}
+        className="relative"
+      >
+        {PROJECTS.map((p, i) =>
+          p.imageUrl ? (
+            <div
+              key={p.id}
+              className={`absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-lg border border-line bg-paper-2 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.35)] transition-opacity duration-200 ${
+                i === active ? "opacity-100" : "opacity-0"
+              } ${isPhone(p) ? "h-[22rem] w-[10rem]" : "h-[14rem] w-[22rem]"}`}
+            >
+              <Image src={p.imageUrl} alt="" fill sizes="352px" className="object-cover object-top" />
+            </div>
+          ) : null
+        )}
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/* ---------- Case study sheet ---------- */
+
+function CaseSheet({ project, onClose }: { project: Project; onClose: () => void }) {
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    closeRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [onClose]);
+
+  const images = project.gallery ?? (project.imageUrl ? [project.imageUrl] : []);
 
   return (
-    <section
-      id="projects"
-      className="py-24 border-t border-slate-200/60 dark:border-white/5 bg-transparent transition-colors duration-300 relative"
-    >
-      <div className="max-w-5xl mx-auto px-6">
-        {/* Section Heading */}
-        <div className="flex flex-col items-center text-center mb-16">
-          <span className="text-xs font-mono font-bold tracking-widest text-fuchsia-700 dark:text-fuchsia-400 uppercase mb-2 inline-flex items-center gap-1.5 glass-chip px-3 py-1 rounded-full">
-            <Briefcase size={12} /> Work
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-slate-900 dark:text-white tracking-tight">
-            Selected Projects
-          </h2>
-          <div className="w-12 h-1 gradient-fill rounded-full mt-4" />
-          <p className="text-sm text-slate-500 dark:text-slate-400 max-w-lg mt-3">
-            Client work and personal projects built for production — real deployments, real users.
-          </p>
+    <motion.div className="fixed inset-0 z-[60]" initial={{ opacity: 1 }} exit={{ opacity: 1 }}>
+      <motion.div
+        className="absolute inset-0 bg-ink/40"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+      />
+      <motion.aside
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="case-title"
+        initial={{ x: "100%" }}
+        animate={{ x: 0 }}
+        exit={{ x: "100%" }}
+        transition={{ duration: 0.5, ease: [0.2, 0.75, 0.15, 1] }}
+        className="absolute right-0 top-0 h-full w-full max-w-3xl overflow-y-auto overscroll-contain bg-paper border-l border-line"
+      >
+        <div className="sticky top-0 z-10 flex items-center justify-between border-b border-line bg-paper px-6 py-4 sm:px-10">
+          <span className="kicker">{project.category}</span>
+          <button ref={closeRef} onClick={onClose} className="kicker text-ink link-draw">
+            Close ✕
+          </button>
         </div>
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          {PROJECTS.map((project, idx) => (
-            <motion.div
-              key={project.id}
-              id={`project-card-${project.id}`}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: idx * 0.1 }}
-              className="group flex flex-col glass-card rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-fuchsia-500/10 hover:border-fuchsia-300/60 dark:hover:border-fuchsia-800/60 transition-all duration-300"
-            >
-              {/* Banner */}
-              <div
-                className={`relative h-44 overflow-hidden ${
-                  project.imageUrl
-                    ? "bg-slate-900"
-                    : `bg-linear-to-br ${CATEGORY_GRADIENTS[project.category] ?? "from-slate-700 to-slate-900"}`
-                }`}
-              >
-                {project.imageUrl ? (
-                  <>
-                    <Image
-                      src={project.imageUrl}
-                      alt={project.title}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 640px) 100vw, 33vw"
-                    />
-                    <div className="absolute inset-0 bg-linear-to-t from-slate-950/70 via-slate-950/10 to-transparent" />
-                  </>
-                ) : (
-                  <>
-                    <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-size-[24px_24px]" />
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <span className="text-9xl font-display font-extrabold text-white/10 select-none">
-                        {project.title.charAt(0)}
-                      </span>
-                    </div>
-                  </>
-                )}
-                <div className="absolute top-4 left-4">
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 bg-white/15 backdrop-blur-sm text-white rounded-full border border-white/20">
-                    {project.category}
-                  </span>
-                </div>
-                {project.duration && (
-                  <div className="absolute top-4 right-4 flex items-center gap-1 text-[10px] font-mono text-white/70">
-                    <Calendar size={10} />
-                    {project.duration}
-                  </div>
-                )}
-              </div>
+        <div className="px-6 pb-16 pt-10 sm:px-10">
+          <h3 id="case-title" className="font-serif text-6xl leading-none sm:text-8xl">
+            {project.title}
+          </h3>
+          <p className="mt-6 text-xl leading-relaxed text-ink-2">{project.summary}</p>
 
-              {/* Card body */}
-              <div className="flex flex-col gap-3 p-5 flex-1 text-left">
-                <div>
-                  <h3 className="text-lg font-display font-bold text-slate-900 dark:text-white leading-snug">
-                    {project.title}
-                  </h3>
-                  {project.client && (
-                    <p className="text-xs font-mono text-indigo-600 dark:text-indigo-400 mt-0.5">
-                      {project.client}
-                    </p>
-                  )}
-                </div>
-
-                <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2 flex-1">
-                  {project.summary}
-                </p>
-
-                <div className="flex flex-wrap gap-1.5 pt-1">
-                  {project.tags.slice(0, 4).map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-2 py-0.5 text-[10px] font-mono glass-chip text-slate-500 dark:text-slate-400 rounded"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                  {project.tags.length > 4 && (
-                    <span className="px-1.5 py-0.5 text-[10px] font-mono glass-chip text-slate-400 rounded">
-                      +{project.tags.length - 4}
-                    </span>
-                  )}
-                </div>
-
-                {/* Action row */}
-                <div className="flex items-center justify-between pt-3 mt-auto border-t border-slate-200/60 dark:border-slate-800">
-                  <button
-                    id={`project-view-btn-${project.id}`}
-                    onClick={() => setActiveProject(project)}
-                    className="flex items-center gap-1.5 text-xs font-semibold gradient-text hover:opacity-80 transition-opacity cursor-pointer group/btn"
-                  >
-                    <Eye size={13} />
-                    Case Study
-                    <ArrowRight size={12} className="group-hover/btn:translate-x-0.5 transition-transform" />
-                  </button>
-                  <div className="flex items-center gap-1">
-                    {project.demoUrl && (
-                      <a
-                        href={project.demoUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        title={project.demoLabel || "Live Demo"}
-                        className="p-1.5 rounded-lg text-slate-400 hover:text-fuchsia-600 dark:hover:text-fuchsia-400 hover:bg-white/60 dark:hover:bg-white/5 transition-all"
-                      >
-                        {project.demoIconUrl ? (
-                          <Image src={project.demoIconUrl} alt="" width={14} height={14} />
-                        ) : (
-                          <ExternalLink size={14} />
-                        )}
-                      </a>
-                    )}
-                    {project.githubUrl && (
-                      <a
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        title="Source Code"
-                        className="p-1.5 rounded-lg text-slate-400 hover:text-fuchsia-600 dark:hover:text-fuchsia-400 hover:bg-white/60 dark:hover:bg-white/5 transition-all"
-                      >
-                        <Github size={14} />
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Case Study Lightbox — bottom sheet on mobile, centered modal on sm+ */}
-        <AnimatePresence>
-          {activeProject && (
+          {images.length > 0 && (
             <div
-              id="lightbox-container"
-              className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 bg-slate-950/80 backdrop-blur-md"
-              onClick={(e) => {
-                if (e.target === e.currentTarget) setActiveProject(null);
-              }}
+              className={`mt-10 ${
+                isPhone(project) ? "flex gap-4 overflow-x-auto pb-2 snap-x" : ""
+              }`}
             >
-              <motion.div
-                initial={{ opacity: 0, y: 48 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 48 }}
-                transition={{ duration: 0.28, ease: "easeOut" }}
-                id="lightbox-content"
-                className="glass-card w-full sm:max-w-2xl lg:max-w-3xl rounded-t-2xl sm:rounded-2xl shadow-2xl overflow-hidden relative flex flex-col max-h-[92dvh] sm:max-h-[86vh]"
-              >
-                {/* Close */}
-                <button
-                  id="lightbox-close-btn"
-                  onClick={() => setActiveProject(null)}
-                  className="absolute top-3 right-3 z-10 p-2 rounded-full bg-slate-900/50 hover:bg-slate-900 text-white transition"
-                  aria-label="Close"
-                >
-                  <X size={16} />
-                </button>
-
-                {/* Banner */}
+              {images.map((src, i) => (
                 <div
-                  className={`relative h-36 sm:h-48 shrink-0 overflow-hidden ${
-                    activeProject.imageUrl
-                      ? "bg-slate-900"
-                      : `bg-linear-to-br ${CATEGORY_GRADIENTS[activeProject.category] ?? "from-slate-700 to-slate-900"}`
+                  key={src}
+                  className={`relative shrink-0 snap-start overflow-hidden rounded-lg border border-line bg-paper-2 ${
+                    isPhone(project) ? "aspect-[9/20] w-[44%] sm:w-[30%]" : "aspect-[16/9] w-full"
                   }`}
                 >
-                  {activeProject.imageUrl ? (
-                    <Image
-                      src={activeProject.imageUrl}
-                      alt={activeProject.title}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 768px"
-                    />
-                  ) : (
-                    <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-size-[24px_24px]" />
-                  )}
-                  <div className="absolute inset-0 bg-linear-to-t from-slate-950/60 to-transparent" />
-                  <div className="absolute bottom-4 left-5 right-12">
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 gradient-fill text-white rounded">
-                      {activeProject.category}
-                    </span>
-                    <h3 className="text-xl sm:text-2xl font-display font-extrabold text-white mt-2 leading-tight">
-                      {activeProject.title}
-                    </h3>
-                  </div>
+                  <Image
+                    src={src}
+                    alt={`${project.title} screenshot ${i + 1}`}
+                    fill
+                    sizes="(max-width: 768px) 90vw, 700px"
+                    className="object-cover object-top"
+                  />
                 </div>
-
-                {/* Scrollable content */}
-                <div className="overflow-y-auto flex-1 overscroll-contain">
-                  <div className="p-5 sm:p-6 flex flex-col gap-5 text-left">
-
-                    {/* Meta row */}
-                    <div className="flex flex-wrap gap-x-6 gap-y-3 pb-4 border-b border-slate-200/60 dark:border-slate-800">
-                      {activeProject.client && (
-                        <div className="flex flex-col gap-0.5">
-                          <span className="text-[10px] font-mono text-slate-400 uppercase tracking-tight">Client</span>
-                          <span className="text-xs font-semibold text-slate-800 dark:text-slate-200">{activeProject.client}</span>
-                        </div>
-                      )}
-                      {activeProject.role && (
-                        <div className="flex flex-col gap-0.5">
-                          <span className="text-[10px] font-mono text-slate-400 uppercase tracking-tight">Role</span>
-                          <span className="text-xs font-semibold gradient-text">{activeProject.role}</span>
-                        </div>
-                      )}
-                      {activeProject.duration && (
-                        <div className="flex flex-col gap-0.5">
-                          <span className="text-[10px] font-mono text-slate-400 uppercase tracking-tight">Timeline</span>
-                          <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-1">
-                            <Calendar size={11} />
-                            {activeProject.duration}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Overview */}
-                    <div>
-                      <h4 className="text-[10px] font-mono uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2 font-bold">
-                        Overview
-                      </h4>
-                      <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                        {activeProject.description}
-                      </p>
-                    </div>
-
-                    {/* Key deliverables */}
-                    {activeProject.features && activeProject.features.length > 0 && (
-                      <div>
-                        <h4 className="text-[10px] font-mono uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-3 font-bold">
-                          Key Deliverables
-                        </h4>
-                        <ul className="flex flex-col gap-2">
-                          {activeProject.features.map((feat, idx) => (
-                            <li key={idx} className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-300">
-                              <span className="w-1.5 h-1.5 rounded-full gradient-fill mt-1.5 shrink-0" />
-                              {feat}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-
-                    {/* Technologies */}
-                    <div>
-                      <h4 className="text-[10px] font-mono uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2 font-bold flex items-center gap-1">
-                        <Code2 size={10} /> Technologies
-                      </h4>
-                      <div className="flex flex-wrap gap-1.5">
-                        {activeProject.tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="px-2.5 py-1 text-xs font-mono glass-chip text-slate-600 dark:text-slate-300 rounded-md"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* CTA buttons */}
-                    {(activeProject.demoUrl || activeProject.githubUrl) && (
-                      <div className="flex flex-wrap gap-3 pt-1">
-                        {activeProject.demoUrl && (
-                          <a
-                            id="case-study-demo-link"
-                            href={activeProject.demoUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-1.5 px-4 py-2.5 btn-gradient rounded-lg text-sm font-medium transition"
-                          >
-                            {activeProject.demoIconUrl ? (
-                              <Image src={activeProject.demoIconUrl} alt="" width={13} height={13} />
-                            ) : (
-                              <ExternalLink size={13} />
-                            )}
-                            {activeProject.demoLabel || "Live Demo"}
-                          </a>
-                        )}
-                        {activeProject.githubUrl && (
-                          <a
-                            id="case-study-github-link"
-                            href={activeProject.githubUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-1.5 px-4 py-2.5 bg-slate-900 dark:bg-slate-800 hover:bg-black dark:hover:bg-slate-700 text-white rounded-lg text-sm font-medium transition"
-                          >
-                            <Github size={13} />
-                            Source Code
-                          </a>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
+              ))}
             </div>
           )}
-        </AnimatePresence>
-      </div>
+
+          <dl className="mt-10 grid grid-cols-3 border-y border-line">
+            {[
+              ["Role", project.role],
+              ["Client", project.client],
+              ["Year", project.duration],
+            ].map(([k, v], i) => (
+              <div key={k} className={`py-4 ${i > 0 ? "border-l border-line pl-4" : ""}`}>
+                <dt className="kicker">{k}</dt>
+                <dd className="mt-1 text-sm">{v}</dd>
+              </div>
+            ))}
+          </dl>
+
+          <p className="mt-10 text-lg leading-relaxed">{project.description}</p>
+
+          {project.features && (
+            <>
+              <h4 className="kicker mt-12">What went into it</h4>
+              <ol className="mt-4">
+                {project.features.map((f, i) => (
+                  <li key={i} className="flex gap-5 border-b border-line py-4 text-ink-2">
+                    <span className="font-mono text-xs text-accent pt-1">{String(i + 1).padStart(2, "0")}</span>
+                    <span>{f}</span>
+                  </li>
+                ))}
+              </ol>
+            </>
+          )}
+
+          <ul className="mt-10 flex flex-wrap gap-2">
+            {project.tags.map((t) => (
+              <li key={t} className="rounded-full border border-line px-3 py-1 font-mono text-xs text-ink-2">
+                {t}
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-10 flex flex-wrap gap-3">
+            {project.demoUrl && (
+              <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className="btn btn-solid">
+                {project.demoIconUrl && (
+                  <Image src={project.demoIconUrl} alt="" width={16} height={16} />
+                )}
+                {project.demoLabel ?? "Visit live site"} <span aria-hidden>↗</span>
+              </a>
+            )}
+            {project.githubUrl && (
+              <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
+                Source on GitHub <span aria-hidden>↗</span>
+              </a>
+            )}
+          </div>
+        </div>
+      </motion.aside>
+    </motion.div>
+  );
+}
+
+/* ---------- Section ---------- */
+
+export default function Projects() {
+  const [hovered, setHovered] = useState<number | null>(null);
+  const [open, setOpen] = useState<Project | null>(null);
+  const close = useCallback(() => setOpen(null), []);
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const x = useSpring(mx, { stiffness: 260, damping: 30, mass: 0.5 });
+  const y = useSpring(my, { stiffness: 260, damping: 30, mass: 0.5 });
+
+  const onMove = (e: React.MouseEvent) => {
+    mx.set(e.clientX + 120);
+    my.set(e.clientY);
+  };
+
+  return (
+    <section id="work" className="mx-auto max-w-7xl px-5 py-24 sm:px-8 sm:py-32">
+      <SectionHead
+        index="01"
+        title={<>Selected <em>work</em></>}
+        aside="Shipped products and client builds. Open any row for the full story."
+      />
+
+      <ul onMouseMove={onMove} onMouseLeave={() => setHovered(null)}>
+        {PROJECTS.map((p, i) => (
+          <Reveal as="li" key={p.id} delay={i * 0.06} className="border-b border-line">
+            <button
+              onClick={() => setOpen(p)}
+              onMouseEnter={() => setHovered(i)}
+              onFocus={() => setHovered(null)}
+              className="group grid w-full grid-cols-12 items-baseline gap-x-4 gap-y-2 py-8 text-left sm:py-10"
+            >
+              <span className="col-span-2 font-mono text-xs text-ink-3 sm:col-span-1">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className="col-span-10 sm:col-span-6">
+                <span className="block font-serif text-5xl leading-none transition-[transform,color] duration-500 ease-[cubic-bezier(.2,.7,.2,1)] group-hover:translate-x-3 group-hover:text-accent sm:text-7xl">
+                  {p.title}
+                </span>
+                <span className="mt-3 block max-w-md text-sm text-ink-2">{p.summary}</span>
+              </span>
+              <span className="col-span-6 col-start-3 kicker sm:col-span-3 sm:col-start-auto">
+                {p.category}
+              </span>
+              <span className="col-span-4 flex items-baseline justify-end gap-4 sm:col-span-2">
+                <span className="kicker">{year(p)}</span>
+                <span className="text-xl transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1">
+                  ↗
+                </span>
+              </span>
+
+              {/* Inline thumbnail on touch / small screens */}
+              {p.imageUrl && (
+                <span
+                  className={`relative col-span-10 col-start-3 mt-4 block overflow-hidden rounded-lg border border-line bg-paper-2 md:hidden ${
+                    isPhone(p) ? "aspect-[4/3]" : "aspect-[16/9]"
+                  }`}
+                >
+                  <Image src={p.imageUrl} alt="" fill sizes="90vw" className="object-cover object-top" />
+                </span>
+              )}
+            </button>
+          </Reveal>
+        ))}
+      </ul>
+
+      <FloatingPreview active={hovered} x={x} y={y} />
+
+      <AnimatePresence>{open && <CaseSheet project={open} onClose={close} />}</AnimatePresence>
     </section>
   );
 }

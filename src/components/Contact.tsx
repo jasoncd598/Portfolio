@@ -1,428 +1,192 @@
 "use client";
-import { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Mail, Phone, MapPin, Send, AlertCircle, CheckCircle2, RefreshCw, MessageSquareCode, Trash2, XCircle } from "lucide-react";
 import { DEV_INFO } from "../data";
-import { ContactInquiry } from "../types";
+import SectionHead from "./SectionHead";
+import Reveal from "./Reveal";
+
+const EMPTY = { name: "", email: "", subject: "", message: "", _gotcha: "" };
+type Status = "idle" | "sending" | "sent" | "error";
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-    _gotcha: "",
-  });
-
+  const [form, setForm] = useState(EMPTY);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [recentInquiries, setRecentInquiries] = useState<ContactInquiry[]>([]);
+  const [status, setStatus] = useState<Status>("idle");
+  const [copied, setCopied] = useState(false);
 
-  // Load sent messages from localStorage
-  useEffect(() => {
-    const saved = localStorage.getItem("portfolio_inquiries");
-    if (saved) {
-      try {
-        setRecentInquiries(JSON.parse(saved));
-      } catch (err) {
-        console.error("Failed to parse local contact logs", err);
-      }
-    }
-  }, []);
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    // Clear error on write
-    if (errors[name]) {
-      setErrors((prev) => {
-        const copy = { ...prev };
-        delete copy[name];
-        return copy;
-      });
-    }
+    setForm((f) => ({ ...f, [name]: value }));
+    if (errors[name]) setErrors(({ [name]: _, ...rest }) => rest);
   };
 
-  const validate = (): boolean => {
-    const newErrors: Record<string, string> = {};
-
-    if (!formData.name.trim()) {
-      newErrors.name = "Please enter your name.";
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = "Please enter your email address.";
-    } else {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(formData.email)) {
-        newErrors.email = "That email address doesn't look right.";
-      }
-    }
-
-    if (!formData.subject.trim()) {
-      newErrors.subject = "Please add a subject.";
-    }
-
-    if (!formData.message.trim()) {
-      newErrors.message = "Please add a message.";
-    } else if (formData.message.trim().length < 15) {
-      newErrors.message = "Please add a bit more detail (at least 15 characters).";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+  const validate = () => {
+    const e: Record<string, string> = {};
+    if (!form.name.trim()) e.name = "Please enter your name.";
+    if (!form.email.trim()) e.email = "Please enter your email address.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = "That email address doesn't look right.";
+    if (!form.subject.trim()) e.subject = "Please add a subject.";
+    if (!form.message.trim()) e.message = "Please add a message.";
+    else if (form.message.trim().length < 15) e.message = "Please add a bit more detail (at least 15 characters).";
+    setErrors(e);
+    return Object.keys(e).length === 0;
   };
 
-  const handleSubmit = async (e: FormEvent) => {
+  const flash = (s: Status) => {
+    setStatus(s);
+    setTimeout(() => setStatus("idle"), 5500);
+  };
+
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
     if (!validate()) return;
 
-    // Honeypot: real users never fill this in. Bots that auto-fill every
-    // field will trip it, so fake success without spending the Formspree quota.
-    if (formData._gotcha) {
-      setIsSuccess(true);
-      setFormData({ name: "", email: "", subject: "", message: "", _gotcha: "" });
-      setTimeout(() => setIsSuccess(false), 5500);
-      return;
+    // Honeypot: real users never fill it, so fake success without spending the Formspree quota.
+    if (form._gotcha) {
+      setForm(EMPTY);
+      return flash("sent");
     }
 
-    setIsSubmitting(true);
-    setIsError(false);
-
+    setStatus("sending");
     try {
-      const { _gotcha, ...payload } = formData;
+      const { _gotcha, ...payload } = form;
       const res = await fetch("https://formspree.io/f/mkolbkrr", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify(payload),
       });
-
       if (!res.ok) throw new Error("Formspree error");
-
-      const newInquiry: ContactInquiry = {
-        ...payload,
-        date: new Date().toLocaleDateString("en-US", {
-          month: "short",
-          day: "numeric",
-          year: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-      };
-
-      const updatedLogs = [newInquiry, ...recentInquiries].slice(0, 5);
-      localStorage.setItem("portfolio_inquiries", JSON.stringify(updatedLogs));
-      setRecentInquiries(updatedLogs);
-
-      setIsSuccess(true);
-      setFormData({ name: "", email: "", subject: "", message: "", _gotcha: "" });
-      setTimeout(() => setIsSuccess(false), 5500);
+      setForm(EMPTY);
+      flash("sent");
     } catch {
-      setIsError(true);
-      setTimeout(() => setIsError(false), 5500);
-    } finally {
-      setIsSubmitting(false);
+      flash("error");
     }
   };
 
-  const clearSentHistory = () => {
-    localStorage.removeItem("portfolio_inquiries");
-    setRecentInquiries([]);
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(DEV_INFO.email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch {}
   };
+
+  const field = (name: "name" | "email" | "subject", label: string, type = "text") => (
+    <label className="block">
+      <span className="kicker">{label}</span>
+      <input
+        name={name}
+        type={type}
+        value={form[name]}
+        onChange={onChange}
+        autoComplete={name === "subject" ? "off" : name}
+        aria-invalid={Boolean(errors[name])}
+        className="field"
+      />
+      {errors[name] && <span className="mt-1 block text-xs text-accent">{errors[name]}</span>}
+    </label>
+  );
 
   return (
     <section
       id="contact"
-      className="py-24 border-t border-slate-200/60 dark:border-white/5 bg-transparent transition-colors duration-300 relative"
+      className="band-dark border-t border-line bg-paper text-ink"
     >
-      <div className="max-w-7xl mx-auto px-6">
-        {/* Section Heading */}
-        <div className="flex flex-col items-center text-center mb-16">
-          <span className="text-xs font-mono font-bold tracking-widest text-fuchsia-700 dark:text-fuchsia-400 uppercase mb-2 inline-flex items-center gap-1.5 glass-chip px-3 py-1 rounded-full">
-            <Mail size={12} /> Contact
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-slate-900 dark:text-white tracking-tight">
-            Get In Touch
-          </h2>
-          <div className="w-12 h-1 gradient-fill rounded-full mt-4" />
-          <p className="text-sm text-slate-500 dark:text-slate-400 max-w-lg mt-3 text-center">
-            Have a project in mind? Send me a message and let&apos;s talk about it.
-          </p>
-        </div>
+      <div className="mx-auto max-w-7xl px-5 py-24 sm:px-8 sm:py-32">
+        <SectionHead index="04" title={<>Let&apos;s <em>talk</em></>} aside="Usually replies within a day" />
 
-        {/* Layout Split */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mt-6">
-          {/* Left Column: Coordination details & Mock offline DB */}
-          <div className="lg:col-span-5 flex flex-col gap-6 text-left">
-            <h3 className="text-2xl font-display font-bold text-slate-900 dark:text-white">
-              Let&apos;s build something together
-            </h3>
-            <p className="text-slate-605 dark:text-slate-300 leading-relaxed text-sm">
-              I&apos;m open to freelance projects, contract work, and full-time opportunities. Whether you need a mobile app, a web build, or someone to take over an existing codebase — send me the details and let&apos;s figure out if we&apos;re a good fit.
-            </p>
+        <div className="mt-14 grid grid-cols-1 gap-16 lg:grid-cols-12">
+          <div className="lg:col-span-6">
+            <Reveal>
+              <p className="font-serif text-4xl leading-[1.1] sm:text-6xl">
+                Have an app or site in mind? I&apos;d like to hear about it.
+              </p>
+            </Reveal>
 
-            {/* Direct coordination items */}
-            <div className="flex flex-col gap-4 mt-2">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-lg gradient-fill flex items-center justify-center text-white shrink-0 shadow-md shadow-fuchsia-500/30">
-                  <Mail size={18} />
-                </div>
-                <div>
-                  <h4 className="text-[10px] font-mono text-slate-400 uppercase tracking-tight">Direct Email</h4>
-                  <a href={`mailto:${DEV_INFO.email}`} className="text-sm font-semibold text-slate-800 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition">
-                    {DEV_INFO.email}
-                  </a>
-                </div>
+            <Reveal delay={0.1}>
+              <div className="mt-12 flex flex-wrap items-center gap-4">
+                <a
+                  href={`mailto:${DEV_INFO.email}`}
+                  className="link-draw font-serif text-3xl italic text-accent sm:text-4xl break-all"
+                >
+                  {DEV_INFO.email}
+                </a>
+                <button onClick={copyEmail} className="kicker rounded-full border border-line px-3 py-1.5 hover:border-ink transition-colors">
+                  {copied ? "Copied ✓" : "Copy"}
+                </button>
               </div>
-
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-lg gradient-fill flex items-center justify-center text-white shrink-0 shadow-md shadow-fuchsia-500/30">
-                  <Phone size={18} />
+              <dl className="mt-10 grid grid-cols-2 border-t border-line">
+                <div className="py-4">
+                  <dt className="kicker">Phone</dt>
+                  <dd className="mt-1 text-sm">
+                    <a href={`tel:${DEV_INFO.phone.replace(/\s/g, "")}`} className="link-draw">{DEV_INFO.phone}</a>
+                  </dd>
                 </div>
-                <div>
-                  <h4 className="text-[10px] font-mono text-slate-400 uppercase tracking-tight">Phone</h4>
-                  <a href={`tel:${DEV_INFO.phone}`} className="text-sm font-semibold text-slate-800 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition">
-                    {DEV_INFO.phone}
-                  </a>
+                <div className="border-l border-line py-4 pl-4">
+                  <dt className="kicker">Based in</dt>
+                  <dd className="mt-1 text-sm">{DEV_INFO.location}</dd>
                 </div>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-lg gradient-fill flex items-center justify-center text-white shrink-0 shadow-md shadow-fuchsia-500/30">
-                  <MapPin size={18} />
-                </div>
-                <div>
-                  <h4 className="text-[10px] font-mono text-slate-400 uppercase tracking-tight">Location</h4>
-                  <span className="text-sm font-semibold text-slate-800 dark:text-slate-250">
-                    {DEV_INFO.location}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Local sandbox log visual representation */}
-            <div className="mt-6 p-4 glass-card rounded-xl flex flex-col gap-3">
-              <div className="flex justify-between items-center">
-                <span className="text-xs font-mono uppercase tracking-wider text-slate-400 dark:text-slate-500 font-bold flex items-center gap-1.5">
-                  <MessageSquareCode size={13} /> Saved Sent History
-                </span>
-                {recentInquiries.length > 0 && (
-                  <button
-                    id="clear-sent-history-btn"
-                    onClick={clearSentHistory}
-                    className="text-[10px] font-mono text-red-500 hover:text-red-600 flex items-center gap-0.5"
-                  >
-                    <Trash2 size={11} /> Clear
-                  </button>
-                )}
-              </div>
-
-              <div className="flex flex-col gap-2 max-h-35 overflow-y-auto pr-1">
-                {recentInquiries.length === 0 ? (
-                  <p className="text-xs text-slate-400 dark:text-slate-500 italic py-2">
-                    No recent submissions found in local browser storage. Try sending one!
-                  </p>
-                ) : (
-                  recentInquiries.map((inq, idx) => (
-                    <div
-                      key={idx}
-                      className="p-2.5 rounded glass-chip flex flex-col gap-1 text-[11px]"
-                    >
-                      <div className="flex justify-between font-mono text-[10px] text-slate-400">
-                        <span className="font-semibold gradient-text truncate max-w-30">
-                          To: {DEV_INFO.name.split(" ")[0]}
-                        </span>
-                        <span>{inq.date}</span>
-                      </div>
-                      <div className="font-bold text-slate-800 dark:text-slate-200">
-                        Re: {inq.subject}
-                      </div>
-                      <p className="text-slate-500 line-clamp-1 italic">
-                        &quot;{inq.message}&quot;
-                      </p>
-                    </div>
-                  ))
-                )}
-              </div>
-            </div>
+              </dl>
+            </Reveal>
           </div>
 
-          {/* Right Column: Interaction Form Canvas */}
-          <div className="lg:col-span-7 glass-card p-6 sm:p-8 rounded-2xl">
-            <form id="contact-form" onSubmit={handleSubmit} className="flex flex-col gap-5 text-left">
-              {/* Honeypot: hidden from real users, catches bots that auto-fill every field */}
+          <Reveal delay={0.15} className="lg:col-span-5 lg:col-start-8">
+            <form onSubmit={onSubmit} noValidate className="flex flex-col gap-7">
+              <div className="grid grid-cols-1 gap-7 sm:grid-cols-2">
+                {field("name", "Name")}
+                {field("email", "Email", "email")}
+              </div>
+              {field("subject", "Subject")}
+              <label className="block">
+                <span className="kicker">Message</span>
+                <textarea
+                  name="message"
+                  rows={5}
+                  value={form.message}
+                  onChange={onChange}
+                  aria-invalid={Boolean(errors.message)}
+                  className="field resize-none"
+                />
+                {errors.message && <span className="mt-1 block text-xs text-accent">{errors.message}</span>}
+              </label>
               <input
                 type="text"
                 name="_gotcha"
-                value={formData._gotcha}
-                onChange={handleChange}
+                value={form._gotcha}
+                onChange={onChange}
                 tabIndex={-1}
                 autoComplete="off"
                 aria-hidden="true"
-                className="absolute left-[-9999px] w-px h-px opacity-0"
+                className="hidden"
               />
 
-              {/* Name & Email Multi Section */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Name */}
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="name" className="text-xs font-mono font-bold text-slate-500 dark:text-slate-400">
-                    Your Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="e.g. Emily Watson"
-                    className={`px-4 py-2 text-sm bg-white/70 dark:bg-slate-950/50 border ${
-                      errors.name ? "border-red-500" : "border-slate-200 dark:border-slate-800"
-                    } hover:border-slate-350 focus:border-fuchsia-500 dark:hover:border-slate-700 dark:focus:border-fuchsia-400 rounded-lg outline-none transition`}
-                  />
-                  {errors.name && (
-                    <span className="text-[11px] text-red-500 font-medium flex items-center gap-1 mt-0.5">
-                      <AlertCircle size={11} className="shrink-0" />
-                      {errors.name}
-                    </span>
+              <div className="flex flex-wrap items-center gap-5">
+                <button
+                  type="submit"
+                  disabled={status === "sending"}
+                  className="btn bg-accent text-accent-ink hover:bg-ink hover:text-paper disabled:opacity-60"
+                >
+                  {status === "sending" ? "Sending…" : "Send message"} <span aria-hidden>→</span>
+                </button>
+                <AnimatePresence mode="wait">
+                  {(status === "sent" || status === "error") && (
+                    <motion.p
+                      key={status}
+                      role="status"
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      className="text-sm text-ink-2"
+                    >
+                      {status === "sent"
+                        ? "Thanks, your message is on its way."
+                        : `Couldn't send that. Email me directly at ${DEV_INFO.email}.`}
+                    </motion.p>
                   )}
-                </div>
-
-                {/* Email */}
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="email" className="text-xs font-mono font-bold text-slate-500 dark:text-slate-400">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="emily@company.io"
-                    className={`px-4 py-2 text-sm bg-white/70 dark:bg-slate-950/50 border ${
-                      errors.email ? "border-red-500" : "border-slate-200 dark:border-slate-800"
-                    } hover:border-slate-350 focus:border-fuchsia-500 dark:hover:border-slate-700 dark:focus:border-fuchsia-400 rounded-lg outline-none transition`}
-                  />
-                  {errors.email && (
-                    <span className="text-[11px] text-red-500 font-medium flex items-center gap-1 mt-0.5">
-                      <AlertCircle size={11} className="shrink-0" />
-                      {errors.email}
-                    </span>
-                  )}
-                </div>
+                </AnimatePresence>
               </div>
-
-              {/* Subject */}
-              <div className="flex flex-col gap-1.5">
-                <label htmlFor="subject" className="text-xs font-mono font-bold text-slate-500 dark:text-slate-400">
-                  Subject Line
-                </label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  placeholder="Inquiry about new dashboard layout..."
-                  className={`px-4 py-3 text-sm bg-white/70 dark:bg-slate-950/50 border ${
-                    errors.subject ? "border-red-500" : "border-slate-200 dark:border-slate-800"
-                  } hover:border-slate-350 focus:border-fuchsia-500 dark:hover:border-slate-700 dark:focus:border-fuchsia-400 rounded-lg outline-none transition`}
-                />
-                {errors.subject && (
-                  <span className="text-[11px] text-red-500 font-medium flex items-center gap-1 mt-0.5">
-                    <AlertCircle size={11} className="shrink-0" />
-                    {errors.subject}
-                  </span>
-                )}
-              </div>
-
-              {/* Message Box */}
-              <div className="flex flex-col gap-1.5">
-                <label htmlFor="message" className="text-xs font-mono font-bold text-slate-500 dark:text-slate-400">
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={5}
-                  value={formData.message}
-                  onChange={handleChange}
-                  placeholder="Tell me about your project, timeline, and budget..."
-                  className={`px-4 py-3 text-sm bg-white/70 dark:bg-slate-950/50 border ${
-                    errors.message ? "border-red-500" : "border-slate-200 dark:border-slate-800"
-                  } hover:border-slate-350 focus:border-fuchsia-500 dark:hover:border-slate-700 dark:focus:border-fuchsia-400 rounded-lg outline-none transition resize-none`}
-                />
-                {errors.message && (
-                  <span className="text-[11px] text-red-500 font-medium flex items-center gap-1 mt-0.5">
-                    <AlertCircle size={11} className="shrink-0" />
-                    {errors.message}
-                  </span>
-                )}
-              </div>
-
-              {/* Form trigger submission button */}
-              <button
-                type="submit"
-                id="contact-submit-btn"
-                disabled={isSubmitting}
-                className="w-full flex items-center justify-center gap-2 cursor-pointer btn-gradient disabled:from-slate-400 disabled:to-slate-450 dark:disabled:from-slate-800 dark:disabled:to-slate-800 disabled:cursor-not-allowed disabled:shadow-none rounded-lg py-3 text-sm font-semibold transition-all"
-              >
-                {isSubmitting ? (
-                  <>
-                    <RefreshCw size={16} className="animate-spin" />
-                    Sending...
-                  </>
-                ) : (
-                  <>
-                    <Send size={15} />
-                    Send Message
-                  </>
-                )}
-              </button>
-
-              {/* Status alerts notifications */}
-              <AnimatePresence>
-                {isSuccess && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.3 }}
-                    className="p-4 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/40 rounded-xl text-emerald-800 dark:text-emerald-300 flex items-start gap-3 mt-1"
-                  >
-                    <CheckCircle2 size={18} className="text-emerald-650 dark:text-emerald-400 mt-0.5 shrink-0" />
-                    <div className="flex flex-col">
-                      <span className="font-bold text-xs sm:text-sm">Message sent!</span>
-                      <p className="text-[11px] sm:text-xs text-emerald-700 dark:text-emerald-400/80 mt-0.5">
-                        Got it — I&apos;ll get back to you within 24 hours.
-                      </p>
-                    </div>
-                  </motion.div>
-                )}
-                {isError && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.3 }}
-                    className="p-4 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/40 rounded-xl text-red-800 dark:text-red-300 flex items-start gap-3 mt-1"
-                  >
-                    <XCircle size={18} className="text-red-500 mt-0.5 shrink-0" />
-                    <div className="flex flex-col">
-                      <span className="font-bold text-xs sm:text-sm">Something went wrong</span>
-                      <p className="text-[11px] sm:text-xs text-red-700 dark:text-red-400/80 mt-0.5">
-                        Couldn&apos;t send your message. Try emailing me directly at {DEV_INFO.email}.
-                      </p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
             </form>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

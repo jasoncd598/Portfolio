@@ -1,205 +1,158 @@
 "use client";
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import { Moon, Sun, Menu, X, Terminal, ArrowUpRight } from "lucide-react";
-import { DEV_INFO } from "../data";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence, useScroll, useSpring } from "motion/react";
 
-interface NavbarProps {
-  darkMode: boolean;
-  setDarkMode: (dark: boolean) => void;
-}
-
-const navItems = [
-  { id: "hero", label: "Home" },
+const NAV = [
+  { id: "work", label: "Work" },
   { id: "about", label: "About" },
-  { id: "projects", label: "Projects" },
-  { id: "resume", label: "Resume" },
+  { id: "experience", label: "Experience" },
   { id: "contact", label: "Contact" },
 ];
 
-export default function Navbar({ darkMode, setDarkMode }: NavbarProps) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState("hero");
-
+function useLocalTime() {
+  const [time, setTime] = useState("");
   useEffect(() => {
-    const handleScroll = () => {
-      // Background blur change
-      if (window.scrollY > 40) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-
-      // Track active section
-      const sections = navItems.map((item) => document.getElementById(item.id));
-      const scrollPosition = window.scrollY + 120; // offset for navbar
-
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i];
-        if (section && section.offsetTop <= scrollPosition) {
-          setActiveSection(navItems[i].id);
-          break;
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const fmt = new Intl.DateTimeFormat("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      timeZone: "Asia/Manila",
+    });
+    const tick = () => setTime(fmt.format(new Date()));
+    tick();
+    const id = setInterval(tick, 30_000);
+    return () => clearInterval(id);
   }, []);
+  return time;
+}
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 80; // height of the fixed navbar
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
+function ThemeToggle() {
+  const [dark, setDark] = useState(false);
+  useEffect(() => setDark(document.documentElement.classList.contains("dark")), []);
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
-    }
-    setMobileMenuOpen(false);
+  const toggle = () => {
+    const next = !dark;
+    setDark(next);
+    document.documentElement.classList.toggle("dark", next);
+    try {
+      localStorage.setItem("theme", next ? "dark" : "light");
+    } catch {}
   };
 
   return (
-    <nav id="main-nav" className="fixed top-0 left-0 w-full z-50 px-4 sm:px-6 pt-4 transition-all duration-300">
-      <div
-        className={`max-w-6xl mx-auto flex justify-between items-center rounded-2xl transition-all duration-300 ${
-          scrolled
-            ? "glass-panel shadow-xl shadow-violet-950/5 dark:shadow-black/30 px-5 py-3"
-            : "bg-transparent px-5 py-4"
+    <button
+      onClick={toggle}
+      aria-label={dark ? "Switch to light theme" : "Switch to dark theme"}
+      className="group relative grid h-8 w-8 place-items-center rounded-full border border-line hover:border-ink transition-colors"
+    >
+      {/* Half-filled disc that turns over */}
+      <span
+        className="block h-3.5 w-3.5 rounded-full border border-ink transition-transform duration-500 ease-[cubic-bezier(.2,.7,.2,1)]"
+        style={{
+          background: "linear-gradient(90deg, var(--ink) 50%, transparent 50%)",
+          transform: dark ? "rotate(180deg)" : "rotate(0deg)",
+        }}
+      />
+    </button>
+  );
+}
+
+export default function Navbar() {
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const time = useLocalTime();
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, { stiffness: 200, damping: 40, mass: 0.3 });
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+  }, [open]);
+
+  return (
+    <>
+      <header
+        className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+          scrolled || open ? "bg-paper border-b border-line" : "bg-transparent border-b border-transparent"
         }`}
       >
-        {/* Brand Logo */}
-        <button
-          id="logo-btn"
-          onClick={() => scrollToSection("hero")}
-          className="flex items-center gap-2 text-xl font-display font-bold text-slate-900 dark:text-white cursor-pointer select-none group"
-        >
-          <div className="w-8 h-8 rounded-lg gradient-fill flex items-center justify-center text-white group-hover:scale-105 group-hover:rotate-3 transition-transform duration-200 shadow-md shadow-fuchsia-500/30">
-            <Terminal size={18} />
-          </div>
-          <span>
-            {DEV_INFO.name.split(" ")[0]}
-            <span className="gradient-text">.</span>
-            <span className="font-mono text-xs font-normal tracking-widest text-slate-400 dark:text-slate-500 ml-1 uppercase hidden md:inline-block">
-              dev
-            </span>
-          </span>
-        </button>
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8">
+          <a href="#top" className="group flex items-baseline gap-2" onClick={() => setOpen(false)}>
+            <span className="font-serif text-2xl leading-none">Jason David</span>
+            <span className="kicker hidden sm:inline transition-colors group-hover:text-accent">/ dev</span>
+          </a>
 
-        {/* Desktop Nav Items */}
-        <div id="desktop-menu" className="hidden md:flex items-center gap-6">
-          <div className="flex items-center gap-1">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                id={`nav-item-${item.id}`}
-                onClick={() => scrollToSection(item.id)}
-                className={`relative px-4 py-2 font-display text-[15px] font-medium transition-colors duration-200 cursor-pointer ${
-                  activeSection === item.id
-                    ? "text-white"
-                    : "text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
-                }`}
-              >
-                {activeSection === item.id && (
-                  <motion.div
-                    layoutId="activeIndicator"
-                    className="absolute inset-0 gradient-fill rounded-full shadow-md shadow-fuchsia-500/30 -z-10"
-                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                  />
-                )}
-                {item.label}
-              </button>
+          <nav className="hidden md:flex items-center gap-8">
+            {NAV.map((item, i) => (
+              <a key={item.id} href={`#${item.id}`} className="group flex items-baseline gap-1.5 text-sm">
+                <span className="font-mono text-[10px] text-ink-3 group-hover:text-accent transition-colors">
+                  0{i + 1}
+                </span>
+                <span className="link-draw">{item.label}</span>
+              </a>
             ))}
-          </div>
+          </nav>
 
-          <div className="h-4 w-px bg-slate-200 dark:bg-slate-800" />
-
-          {/* Theme Toggle & Hire CTAs */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
+            <span className="kicker hidden lg:inline tabular-nums" title="Local time in Angeles City">
+              PH {time}
+            </span>
+            <ThemeToggle />
             <button
-              id="theme-toggler"
-              onClick={() => setDarkMode(!darkMode)}
-              aria-label="Toggle dark mode"
-              className="p-2 rounded-full text-slate-600 hover:text-fuchsia-600 hover:bg-white/60 dark:text-slate-300 dark:hover:text-fuchsia-400 dark:hover:bg-white/5 transition-all duration-200 cursor-pointer"
+              className="md:hidden kicker text-ink"
+              onClick={() => setOpen((o) => !o)}
+              aria-expanded={open}
+              aria-controls="mobile-menu"
             >
-              {darkMode ? <Sun size={20} /> : <Moon size={20} />}
-            </button>
-
-            <button
-              id="hier-me-btn"
-              onClick={() => scrollToSection("contact")}
-              className="flex items-center gap-1.5 px-4 py-2 text-[14px] font-display font-medium rounded-full btn-gradient transition-all duration-200 cursor-pointer"
-            >
-              Hire Me
-              <ArrowUpRight size={15} />
+              {open ? "Close" : "Menu"}
             </button>
           </div>
         </div>
+        <motion.div
+          className="absolute bottom-[-1px] left-0 h-px w-full origin-left bg-accent"
+          style={{ scaleX: progress }}
+        />
+      </header>
 
-        {/* Mobile Navigation controls */}
-        <div className="flex md:hidden items-center gap-2">
-          <button
-            id="theme-toggler-mobile"
-            onClick={() => setDarkMode(!darkMode)}
-            aria-label="Toggle dark mode"
-            className="p-2 rounded-full text-slate-600 dark:text-slate-300 cursor-pointer"
-          >
-            {darkMode ? <Sun size={19} /> : <Moon size={19} />}
-          </button>
-
-          <button
-            id="mobile-menu-toggle"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle navigation menu"
-            className="p-2 rounded-full text-slate-700 dark:text-slate-200 hover:bg-white/60 dark:hover:bg-white/5 transition-colors"
-          >
-            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Drawer */}
       <AnimatePresence>
-        {mobileMenuOpen && (
+        {open && (
           <motion.div
-            id="mobile-drawer"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25 }}
-            className="md:hidden max-w-6xl mx-auto mt-2 glass-panel shadow-xl shadow-violet-950/5 dark:shadow-black/30 rounded-2xl overflow-hidden"
+            id="mobile-menu"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-40 bg-paper pt-24 px-5 md:hidden"
           >
-            <div className="px-6 py-5 flex flex-col gap-4">
-              {navItems.map((item) => (
-                <button
+            <ul className="flex flex-col">
+              {NAV.map((item, i) => (
+                <motion.li
                   key={item.id}
-                  id={`mobile-nav-item-${item.id}`}
-                  onClick={() => scrollToSection(item.id)}
-                  className={`text-left py-2 font-display text-[16px] font-medium transition-colors ${
-                    activeSection === item.id
-                      ? "gradient-text font-semibold"
-                      : "text-slate-600 dark:text-slate-300"
-                  }`}
+                  initial={{ y: 24, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.05 + i * 0.05, duration: 0.4, ease: [0.2, 0.75, 0.15, 1] }}
+                  className="border-b border-line"
                 >
-                  {item.label}
-                </button>
+                  <a
+                    href={`#${item.id}`}
+                    onClick={() => setOpen(false)}
+                    className="flex items-baseline justify-between py-5"
+                  >
+                    <span className="font-serif text-5xl">{item.label}</span>
+                    <span className="font-mono text-xs text-ink-3">0{i + 1}</span>
+                  </a>
+                </motion.li>
               ))}
-              <div className="h-px bg-slate-200 dark:bg-slate-800 my-1" />
-              <button
-                id="hire-me-mobile-btn"
-                onClick={() => scrollToSection("contact")}
-                className="w-full text-center py-2.5 btn-gradient rounded-lg font-display font-medium text-sm transition-colors"
-              >
-                Hire Me Now
-              </button>
-            </div>
+            </ul>
+            <p className="kicker mt-10">Angeles City, PH · {time}</p>
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </>
   );
 }
