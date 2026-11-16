@@ -14,7 +14,6 @@ export default function Footer() {
         </p>
         <div className="flex flex-wrap items-center justify-between gap-4 border-t border-line py-6">
           <p className="kicker">© {new Date().getFullYear()} {DEV_INFO.name}</p>
-          <p className="kicker">Built with Next.js · Hosted on Vercel</p>
           <a href="#top" className="kicker link-draw text-ink">Back to top ↑</a>
         </div>
       </div>

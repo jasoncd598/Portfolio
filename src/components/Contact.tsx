@@ -1,9 +1,10 @@
 "use client";
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { DEV_INFO } from "../data";
 import SectionHead from "./SectionHead";
 import Reveal from "./Reveal";
+import { PREFILL_EVENT } from "./Pricing";
 
 const EMPTY = { name: "", email: "", subject: "", message: "", _gotcha: "" };
 type Status = "idle" | "sending" | "sent" | "error";
@@ -13,6 +14,16 @@ export default function Contact() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<Status>("idle");
   const [copied, setCopied] = useState(false);
+
+  // "Get a quote" buttons in the Pricing section pre-fill the subject line.
+  useEffect(() => {
+    const onPrefill = (e: Event) => {
+      const { subject } = (e as CustomEvent<{ subject: string }>).detail;
+      setForm((f) => ({ ...f, subject }));
+    };
+    window.addEventListener(PREFILL_EVENT, onPrefill);
+    return () => window.removeEventListener(PREFILL_EVENT, onPrefill);
+  }, []);
 
   const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -93,7 +104,7 @@ export default function Contact() {
       className="band-dark border-t border-line bg-paper text-ink"
     >
       <div className="mx-auto max-w-7xl px-5 py-24 sm:px-8 sm:py-32">
-        <SectionHead index="04" title={<>Let&apos;s <em>talk</em></>} aside="Usually replies within a day" />
+        <SectionHead index="05" title={<>Let&apos;s <em>talk</em></>} aside="Usually replies within a day" />
 
         <div className="mt-14 grid grid-cols-1 gap-16 lg:grid-cols-12">
           <div className="lg:col-span-6">

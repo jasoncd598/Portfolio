@@ -4,6 +4,7 @@ import Marquee from "../components/Marquee";
 import Projects from "../components/Projects";
 import About from "../components/About";
 import Resume from "../components/Resume";
+import Pricing from "../components/Pricing";
 import Contact from "../components/Contact";
 import Footer from "../components/Footer";
 import PrintResume from "../components/PrintResume";
@@ -19,6 +20,7 @@ export default function Home() {
           <Projects />
           <About />
           <Resume />
+          <Pricing />
           <Contact />
         </main>
         <Footer />
